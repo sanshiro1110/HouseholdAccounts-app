@@ -3,7 +3,7 @@
     <div class="modal">
       <div class="modal-date">
         <h3>
-          {{ inputData.month }}月{{ inputData.date }}日 {{ dateTotalGet }}円
+          {{ inputData.year }}年{{ inputData.month }}月{{ inputData.date }}日 {{ dateTotalGet }}円
         </h3>
         <div>
           (
@@ -160,6 +160,7 @@ tfoot tr td {
 import * as firebase from 'firebase';
 
 const today = new Date();
+
 export default {
   data() {
     return {
@@ -197,12 +198,16 @@ export default {
   mounted() {
     this.$store.dispatch('createCalendar');
     this.$store.dispatch('getInputData');
+    // document.querySelector('#today').addEventListener('click', () => {
+    //   this.$store.dispatch('createCalendar');
+    //   this.$store.dispatch('getInputData');
+    // });
     const tds = document.querySelectorAll('tbody tr td');
     tds.forEach(td => {
       td.addEventListener('click', () => {
         this.$store.dispatch('changeSavedData', parseInt(td.firstElementChild.textContent));
-        this.inputData.year = this.$store.state.year;
-        this.inputData.month = this.$store.state.month;
+        this.inputData.year = this.$store.state.inputData.year;
+        this.inputData.month = this.$store.state.inputData.month;
         this.inputData.date = td.firstElementChild.textContent;
         const modal = document.querySelector('.modal');
         modal.classList.add('visible');
@@ -255,6 +260,8 @@ export default {
           category: this.inputData.category,
           payment: parseInt(this.inputData.payment),
           diary: this.inputData.diary,
+        }).then(() => {
+          location.reload();
         });
       }
     }
