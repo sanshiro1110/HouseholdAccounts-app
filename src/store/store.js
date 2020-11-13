@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import createPersistedState from 'vuex-persistedstate';
+// import createPersistedState from 'vuex-persistedstate';
 import * as firebase from 'firebase';
+import router from '../router';
 
 
 Vue.use(Vuex);
@@ -236,15 +237,24 @@ export default new Vuex.Store({
   },
   actions: {
     login(context, authData) {
-      firebase.auth().signInWithEmailAndPassword(authData.email, authData.password).then(response => {
-        context.commit('updateIdToken', response.user.uid);
-      }).catch(error => {
-        console.log(error);
+      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+      .then(function() {
+        return firebase.auth().signInWithEmailAndPassword(authData.email, authData.password).then(response => {
+          context.commit('updateIdToken', response.user.uid);
+          console.log(response);
+          router.push('/calendar');
+        });
       });
+
     },
     register(context, authData) {
-      firebase.auth().createUserWithEmailAndPassword(authData.email, authData.password).then(response => {
-        context.commit('updateIdToken', response.user.uid);
+      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+      .then(function() {
+        return firebase.auth().createUserWithEmailAndPassword(authData.email, authData.password).then(response => {
+          context.commit('updateIdToken', response.user.uid);
+          console.log(response);
+          router.push('/');
+        });
       });
     },
     clearData(context) {
@@ -358,6 +368,6 @@ export default new Vuex.Store({
       context.commit('deleteList', index);
     }
   },
-  plugins: [createPersistedState({storage: window.localStorage})],
+  // plugins: [createPersistedState({storage: window.localStorage})],
 });
 

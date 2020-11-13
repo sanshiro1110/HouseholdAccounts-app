@@ -1,12 +1,18 @@
 <template>
   <div id="app">
-    <div class="router-link">
-      <router-link to="./" class="navLink">入力</router-link>
-      <router-link to="./calendar" class="navLink">カレンダー</router-link>
-      <router-link to="./report" class="navLink">レポート</router-link>
-      <router-link to="./login" class="navLink">ログイン</router-link>
-      <router-link to="./register" class="navLink">新規登録</router-link>
-    </div>
+    <template v-if="isAuthenticated">
+      <div class="router-link">
+        <router-link to="./" class="navLink">入力</router-link>
+        <router-link to="./calendar" class="navLink">カレンダー</router-link>
+        <router-link to="./report" class="navLink">レポート</router-link>
+      </div>
+    </template>
+    <template v-else>
+      <div class="router-link">
+        <router-link to="./login" class="navLink">ログイン</router-link>
+        <router-link to="./register" class="navLink">新規登録</router-link>
+      </div>
+    </template>
     <router-view></router-view>
   </div>
 </template>
@@ -62,8 +68,11 @@ export default {
     dateTotalGet() {
       return this.$store.state.changeData.dateTotal;
     },
+    isAuthenticated() {
+      return this.$store.getters.idToken;
+    }
   },
 }
 
-//test
 </script>
+

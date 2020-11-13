@@ -137,5 +137,9 @@ export default {
       return ((this.$store.state.inputData.categoryPayments.others / this.$store.state.inputData.monthTotal) * 100).toFixed(1);
     },
   },
+  created() {
+    // this.$store.dispatch('createCalendar');
+    this.$store.dispatch('getInputData');
+  }
 }
 </script>

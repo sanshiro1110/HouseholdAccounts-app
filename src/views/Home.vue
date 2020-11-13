@@ -1,8 +1,6 @@
 <template>
   <div>
     <div class="container">
-      <!-- <nav></nav> -->
-
       <h3>日付</h3>
       <p>
         <span class="changeButton" @click="prevDay">&lt;</span>
@@ -51,14 +49,14 @@ export default {
       categories: ["食費", "日用品", "美容品", "交際費", "交通費", "その他"],
     }
   },
-  watch: {
-    inputData: {
-      handler() {
-        localStorage.setItem('inputData', JSON.stringify(this.inputData));
-      },
-      deep: true
-    }
-  },
+  // watch: {
+  //   inputData: {
+  //     handler() {
+  //       localStorage.setItem('inputData', JSON.stringify(this.inputData));
+  //     },
+  //     deep: true
+  //   }
+  // },
   created() {
     this.$store.dispatch('clearData');
     this.$store.dispatch('getInputData');
