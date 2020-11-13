@@ -10,6 +10,7 @@ const today = new Date();
 
 export default new Vuex.Store({
   state: {
+    idToken: "",
     inputData: {
       year: today.getFullYear(),
       month: today.getMonth() + 1,
@@ -36,7 +37,13 @@ export default new Vuex.Store({
       dateTotal: 0,
     }
   },
+  getters: {
+    idToken: state => state.idToken
+  },
   mutations: {
+    updateIdToken(state, idToken) {
+      state.idToken = idToken;
+    },
     getInputData(state, newData) {
       state.inputData = newData;
     },
@@ -228,6 +235,18 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    login(context, authData) {
+      firebase.auth().signInWithEmailAndPassword(authData.email, authData.password).then(response => {
+        context.commit('updateIdToken', response.user.uid);
+      }).catch(error => {
+        console.log(error);
+      });
+    },
+    register(context, authData) {
+      firebase.auth().createUserWithEmailAndPassword(authData.email, authData.password).then(response => {
+        context.commit('updateIdToken', response.user.uid);
+      });
+    },
     clearData(context) {
       const initializedData = {
         year: today.getFullYear(),

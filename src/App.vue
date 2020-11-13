@@ -4,6 +4,8 @@
       <router-link to="./" class="navLink">入力</router-link>
       <router-link to="./calendar" class="navLink">カレンダー</router-link>
       <router-link to="./report" class="navLink">レポート</router-link>
+      <router-link to="./login" class="navLink">ログイン</router-link>
+      <router-link to="./register" class="navLink">新規登録</router-link>
     </div>
     <router-view></router-view>
   </div>
@@ -61,10 +63,6 @@ export default {
       return this.$store.state.changeData.dateTotal;
     },
   },
-  created() {
-    this.$store.dispatch('clearData');
-    this.$store.dispatch('getInputData');
-  }
 }
 
 //test

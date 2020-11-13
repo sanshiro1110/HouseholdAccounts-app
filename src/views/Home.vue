@@ -59,6 +59,10 @@ export default {
       deep: true
     }
   },
+  created() {
+    this.$store.dispatch('clearData');
+    this.$store.dispatch('getInputData');
+  },
   //最初はいらないエラーになる！
   // mounted() {
   //   this.inputData = JSON.parse(localStorage.getItem('inputData'));
