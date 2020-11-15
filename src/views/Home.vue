@@ -31,6 +31,7 @@
 
 <script>
 import * as firebase from 'firebase';
+// import router from "../router.js";
 
 const today = new Date();
 
@@ -119,7 +120,7 @@ export default {
           diary: this.inputData.diary,
         });
       }
-    }
+    },
   },
 }
 </script>

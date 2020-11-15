@@ -237,24 +237,35 @@ export default new Vuex.Store({
   },
   actions: {
     login(context, authData) {
-      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-      .then(function() {
-        return firebase.auth().signInWithEmailAndPassword(authData.email, authData.password).then(response => {
-          context.commit('updateIdToken', response.user.uid);
-          console.log(response);
-          router.push('/calendar');
-        });
+      firebase.auth().signInWithEmailAndPassword(authData.email, authData.password).then(response => {
+        context.commit('updateIdToken', response.user.uid);
+        router.push('/calendar');
+        console.log("user login", response);
       });
-
     },
     register(context, authData) {
-      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-      .then(function() {
-        return firebase.auth().createUserWithEmailAndPassword(authData.email, authData.password).then(response => {
-          context.commit('updateIdToken', response.user.uid);
-          console.log(response);
+        firebase.auth().createUserWithEmailAndPassword(authData.email, authData.password).then(response => {
+        context.commit('updateIdToken', response.user.uid);
+        console.log('user register', response);
+        router.push('/');
+      });
+    },
+    autoLogin(context) {
+      firebase.auth().onAuthStateChanged(user => {
+        if(user) {
+          context.commit('updateIdToken', user.uid);
           router.push('/');
-        });
+          console.log('user autoLogin');
+        } else {
+          console.log('nobody login');
+        }
+      });
+    },
+    logout(context) {
+      firebase.auth().signOut().then(() => {
+        context.commit('updateIdToken', "");
+        router.push('/login');
+        console.log('signout success');
       });
     },
     clearData(context) {

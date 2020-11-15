@@ -19,7 +19,7 @@
         :colors='["#ffc7af","#ffabce","#d0b0ff","#ffffaa","#8eb8ff","#aeffbd",]'
       ></pie-chart>
     </div>
-    <div class="categoryPercentages">
+    <div>
       <hr>
       <ul class="categoryPercentage">
         <li>食費</li>
@@ -61,10 +61,6 @@
 </template>
 
 <style scoped>
-.categoryPercentages {
-  width: 700px;
-  margin: 0 auto;
-}
 
 .categoryPercentage {
   display: flex;

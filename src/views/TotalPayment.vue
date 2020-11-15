@@ -1,5 +1,5 @@
 <template>
-  <div class="totalPayment_container">
+  <div>
     <div class="monthTotal">
       <span class="prevMonth" @click="prevMonth">前の月</span>
       <h3>
@@ -44,11 +44,6 @@
 <style scoped>
 hr {
   margin: 0;
-}
-
-.totalPayment_container {
-  width: 700px;
-  margin: 0 auto;
 }
 
 ul {

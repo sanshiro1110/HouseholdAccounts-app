@@ -28,7 +28,7 @@ export default {
       }
       this.$store.dispatch('register', userData);
     }
-  }
+  },
 }
 </script>
 
