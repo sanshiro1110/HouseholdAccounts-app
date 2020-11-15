@@ -34,6 +34,7 @@ export default new Vuex.Store({
         date: 1,
         category: "食費",
         payment: 0,
+        diary: "",
       }],
       dateTotal: 0,
     }
@@ -250,17 +251,6 @@ export default new Vuex.Store({
         router.push('/');
       });
     },
-    autoLogin(context) {
-      firebase.auth().onAuthStateChanged(user => {
-        if(user) {
-          context.commit('updateIdToken', user.uid);
-          router.push('/');
-          console.log('user autoLogin');
-        } else {
-          console.log('nobody login');
-        }
-      });
-    },
     logout(context) {
       firebase.auth().signOut().then(() => {
         context.commit('updateIdToken', "");
@@ -372,7 +362,7 @@ export default new Vuex.Store({
         context.commit('changeSavedData', changeData);
       })
       .catch(error => {
-        console.log(error);
+        console.log("changeSavedData error", error);
       });
     },
     deleteList(context, index) {

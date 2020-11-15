@@ -109,7 +109,6 @@ export default {
       }
       if(this.inputData.payment !== 0) {
         alert('保存されました');
-        //日付が同じだった場合は金額を追加して更新したい
         const db = firebase.firestore();
         db.collection('total').add({
           year: this.inputData.year,

@@ -29,12 +29,19 @@ Vue.use(Chartkick.use(Chart));
 
 Vue.config.productionTip = false;
 
-store.dispatch('autoLogin').then(() => {
+firebase.auth().onAuthStateChanged(user => {
+  if(user) {
+    store.commit('updateIdToken', user.uid);
+    router.push('/');
+    console.log('user autoLogin');
+  } else {
+    console.log('nobody login');
+  }
   new Vue({
     router,
     store,
     render: h => h(App),
-  }).$mount('#app')
+  }).$mount('#app');
 });
 
 

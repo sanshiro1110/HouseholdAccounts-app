@@ -12,6 +12,11 @@
             </span>
           )
         </div>
+        <div>
+          メモ
+          <br>
+          {{ inputData.diary }}
+        </div>
       </div>
       <div class="modal-changePaymentData">
         <h4>支出額の追加</h4>
@@ -209,6 +214,12 @@ export default {
         this.inputData.year = this.$store.state.inputData.year;
         this.inputData.month = this.$store.state.inputData.month;
         this.inputData.date = td.firstElementChild.textContent;
+        const n = this.$store.state.changeData.dateList.length;
+        if(n > 0) {
+          this.inputData.diary = this.$store.state.changeData.dateList[n - 1].diary;
+        } else {
+          this.inputData.diary = "";
+        }
         const modal = document.querySelector('.modal');
         modal.classList.add('visible');
       });
