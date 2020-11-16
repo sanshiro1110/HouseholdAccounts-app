@@ -227,14 +227,13 @@ export default new Vuex.Store({
       state.inputData = initializedData;
     },
     deleteList(state, index) {
-      state.inputData.list.splice(index, 1);
-      // const db = firebase.firestore();
-      // db.collection('total')
-      // .where("deleteId", "==", index)
-      // .delete()
-      // .then(function() {
-      //   console.log('削除できました');
-      // })
+      const db = firebase.firestore();
+      db.collection('total')
+      .doc(state.inputData.list[index].id)
+      .delete()
+      .then(function() {
+        state.inputData.list.splice(index, 1);
+      });
     },
   },
   actions: {
@@ -286,7 +285,6 @@ export default new Vuex.Store({
         month: context.state.inputData.month,
         date: context.state.inputData.date,
         monthTotal: 0,
-        number: 0,
         list: [],
         categoryPayments: {
           food: 0,
@@ -305,9 +303,7 @@ export default new Vuex.Store({
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(function(doc) {
-          newData.number ++;
           newData.list.push({
-            id: newData.number,
             ...doc.data()
           });
           newData.monthTotal += doc.data().payment;
@@ -324,6 +320,7 @@ export default new Vuex.Store({
           } else if(doc.data().category == "その他") {
             newData.categoryPayments.others += doc.data().payment;
           }
+          // console.log('docのid', doc.id);
         });
         context.commit('getInputData', newData);
         context.dispatch('renderCalendarPayment');

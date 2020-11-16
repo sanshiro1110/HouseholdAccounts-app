@@ -113,6 +113,14 @@ export default {
           category: this.inputData.category,
           payment: parseInt(this.inputData.payment),
           diary: this.inputData.diary,
+        }).then(response => {
+          // console.log('dataRequest response', response.id);
+          db.collection('total').doc(response.id).set({
+            id: response.id
+          }, { merge: true });
+          this.inputData.category = "食費";
+          this.inputData.payment = 0;
+          this.inputData.diary = "";
         });
       }
     },

@@ -30,13 +30,13 @@
       </li>
     </ul>
     <hr>
-    <div v-for="(ary, index) in listGet" :key="ary.id" class="datePaymentList">
-      <ul class="totalPayment">
+    <div v-for="(ary, index) in listGet" :key="ary.id" class="datePaymentLists">
+      <ul class="totalPayment datePaymentList">
         <li>{{ ary.month }}月{{ ary.date}}日</li>
         <li>{{ ary.category }}</li>
         <li>{{ ary.payment}}円</li>
       </ul>
-      <span class="deleteList" id="deleteList" @click="deleteList(index)">[ x ]</span>
+      <span class="deleteList" @click="deleteList(index)">[ x ]</span>
       <hr>
     </div>
   </div>
@@ -98,7 +98,7 @@ ul {
   padding: 10px;
 }
 
-.datePaymentList {
+.datePaymentLists {
   position: relative;
 }
 
@@ -157,6 +157,8 @@ export default {
     deleteList(index) {
       if(confirm("本当に削除しますか")) {
         this.$store.dispatch('deleteList', index);
+        this.$store.dispatch('createCalendar');
+        // this.$store.dispatch('getInputData');
       }
     },
     prevMonth() {
