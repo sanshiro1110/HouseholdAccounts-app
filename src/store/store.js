@@ -28,15 +28,10 @@ export default new Vuex.Store({
         others: 0
       }
     },
-    changeData: {
-      dateList: [{
-        month: 1,
-        date: 1,
-        category: "食費",
-        payment: 0,
-        diary: "",
-      }],
+    clickData: {
+      dateList: [],
       dateTotal: 0,
+      date: 1,
     }
   },
   getters: {
@@ -219,8 +214,14 @@ export default new Vuex.Store({
         }
       });
     },
-    changeSavedData(state, changeData) {
-      state.changeData = changeData;
+    getDateList(state, dateList) {
+      state.clickData.dateList = dateList;
+    },
+    getDateTotal(state, dateTotal) {
+      state.clickData.dateTotal = dateTotal;
+    },
+    getDate(state, date) {
+      state.clickData.date = date;
     },
     clearData(state, initializedData) {
       state.inputData = initializedData;
@@ -234,21 +235,23 @@ export default new Vuex.Store({
       // .then(function() {
       //   console.log('削除できました');
       // })
-    }
+    },
   },
   actions: {
     login(context, authData) {
-      firebase.auth().signInWithEmailAndPassword(authData.email, authData.password).then(response => {
+      firebase.auth().signInWithEmailAndPassword(authData.email, authData.password)
+      .then(response => {
         context.commit('updateIdToken', response.user.uid);
         router.push('/calendar');
         console.log("user login", response);
       });
     },
     register(context, authData) {
-        firebase.auth().createUserWithEmailAndPassword(authData.email, authData.password).then(response => {
+      firebase.auth().createUserWithEmailAndPassword(authData.email, authData.password)
+      .then(response => {
         context.commit('updateIdToken', response.user.uid);
+        // router.replace('/');
         console.log('user register', response);
-        router.push('/');
       });
     },
     logout(context) {
@@ -328,13 +331,9 @@ export default new Vuex.Store({
     },
     prevMonth(context, number) {
       context.commit('prevMonth', number);
-      context.dispatch('createCalendar');
-      context.dispatch('getInputData');
     },
     nextMonth(context, number) {
       context.commit('nextMonth', number);
-      context.dispatch('createCalendar');
-      context.dispatch('getInputData');
     },
     createCalendar(context) {
       context.commit('createCalendar');
@@ -342,31 +341,50 @@ export default new Vuex.Store({
     renderCalendarPayment(context) {
       context.commit('renderCalendarPayment');
     },
-    changeSavedData(context, clickDate) {
-      let changeData = {
-        dateList: [],
-        dateTotal: 0,
-      }
+    getClickedData(context, date) {
+      let dateList = [{
+        date: 1,
+        category: "食費",
+        payment: 0,
+        diary: "",
+      }];
+      let dateTotal = 0;
+
       const db = firebase.firestore();
       db.collection('total')
-      .where("date", "==", clickDate)
+      .where("date", "==", date)
+      .where("month", "==", context.state.inputData.month)
       // .orderBy("payment", "desc")
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(function(doc) {
-          changeData.dateList.push({
+          dateList.push({
             ...doc.data()
           });
-          changeData.dateTotal += doc.data().payment;
+          dateTotal += doc.data().payment;
         });
-        context.commit('changeSavedData', changeData);
+        dateList.shift();
+        context.commit('getDateList', dateList);
+        context.commit('getDateTotal', dateTotal);
+        context.commit('getDate', date);
       })
       .catch(error => {
-        console.log("changeSavedData error", error);
+        console.log("getClickedData error", error);
       });
     },
     deleteList(context, index) {
       context.commit('deleteList', index);
+    },
+    modalShow(context) {
+      const tds = document.querySelectorAll('tbody tr td');
+      tds.forEach(td => {
+      td.addEventListener('click', () => {
+        const number = parseInt(td.firstElementChild.textContent);
+        context.dispatch('getClickedData', number);
+        const modal = document.querySelector('.modal');
+        modal.classList.add('visible');
+      });
+    });
     }
   },
   // plugins: [createPersistedState({storage: window.localStorage})],

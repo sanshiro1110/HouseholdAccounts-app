@@ -21,7 +21,7 @@
       <hr>
 
       <h3>メモ</h3>
-      <textarea name="diary" id="" cols="50" rows="10" v-model="inputData.diary"></textarea>
+      <textarea name="diary" id="" cols="30" rows="5" v-model="inputData.diary"></textarea>
     </div>
     <div class="buttonArea">
       <button class="save" @click="dataRequest">記録する</button>
@@ -58,10 +58,6 @@ export default {
   //     deep: true
   //   }
   // },
-  created() {
-    this.$store.dispatch('clearData');
-    this.$store.dispatch('getInputData');
-  },
   //最初はいらないエラーになる！
   // mounted() {
   //   this.inputData = JSON.parse(localStorage.getItem('inputData'));

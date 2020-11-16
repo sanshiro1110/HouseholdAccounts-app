@@ -3,7 +3,7 @@
     <div class="modal">
       <div class="modal-date">
         <h3>
-          {{ inputData.year }}年{{ inputData.month }}月{{ inputData.date }}日 {{ dateTotalGet }}円
+          {{ dateGet.year }}年{{ dateGet.month }}月{{ dateGet.date }}日 {{ dateTotalGet }}円
         </h3>
         <div>
           (
@@ -12,10 +12,11 @@
             </span>
           )
         </div>
+        <br>
         <div>
           メモ
-          <br>
-          {{ inputData.diary }}
+          <br><br>
+          {{ dateDiaryGet }}
         </div>
       </div>
       <div class="modal-changePaymentData">
@@ -27,6 +28,9 @@
           </option>
         </select>
         <input type="number" v-model="inputData.payment">円
+        <br>
+        <h3>メモ</h3>
+        <textarea name="diary" id="" cols="30" rows="5" v-model="inputData.diary"></textarea>
         <br>
         <button class="save" @click="dataRequest">追加</button>
       </div>
@@ -164,15 +168,10 @@ tfoot tr td {
 <script>
 import * as firebase from 'firebase';
 
-const today = new Date();
-
 export default {
   data() {
     return {
       inputData: {
-        year: today.getFullYear(),
-        month: today.getMonth() + 1,
-        date: today.getDate(),
         category: "食費",
         payment: 0,
         diary: "",
@@ -181,76 +180,45 @@ export default {
     }
   },
   computed: {
-    yearGet() {
-      return this.$store.state.inputData.year;
-    },
-    monthGet() {
-      return this.$store.state.inputData.month;
-    },
-    dateGet() {
-      return this.$store.state.inputData.date;
-    },
-    listGet() {
-      return this.$store.state.inputData.list;
-    },
     dateListGet() {
-      return this.$store.state.changeData.dateList;
+      return this.$store.state.clickData.dateList;
     },
     dateTotalGet() {
-      return this.$store.state.changeData.dateTotal;
+      return this.$store.state.clickData.dateTotal;
+    },
+    dateGet() {
+      return {
+        year: this.$store.state.inputData.year,
+        month: this.$store.state.inputData.month,
+        date: this.$store.state.clickData.date,
+      }
+    },
+    dateDiaryGet() {
+      const n = this.dateListGet.length;
+      if(n > 0) {
+        return this.$store.state.clickData.dateList[n - 1].diary;
+      } else {
+        return '';
+      }
     },
   },
   mounted() {
     this.$store.dispatch('createCalendar');
     this.$store.dispatch('getInputData');
-    // document.querySelector('#today').addEventListener('click', () => {
-    //   this.$store.dispatch('createCalendar');
-    //   this.$store.dispatch('getInputData');
-    // });
-    const tds = document.querySelectorAll('tbody tr td');
-    tds.forEach(td => {
-      td.addEventListener('click', () => {
-        this.$store.dispatch('changeSavedData', parseInt(td.firstElementChild.textContent));
-        this.inputData.year = this.$store.state.inputData.year;
-        this.inputData.month = this.$store.state.inputData.month;
-        this.inputData.date = td.firstElementChild.textContent;
-        const n = this.$store.state.changeData.dateList.length;
-        if(n > 0) {
-          this.inputData.diary = this.$store.state.changeData.dateList[n - 1].diary;
-        } else {
-          this.inputData.diary = "";
-        }
-        const modal = document.querySelector('.modal');
-        modal.classList.add('visible');
-      });
-    });
+    this.$store.dispatch('modalShow');
   },
   methods: {
     prevMonth() {
       this.$store.dispatch('prevMonth');
-      const tds = document.querySelectorAll('tbody tr td');
-      tds.forEach(td => {
-        td.addEventListener('click', () => {
-          this.$store.dispatch('changeSavedData', parseInt(td.firstElementChild.textContent));
-          this.inputData.month = this.$store.state.month;
-          this.inputData.date = td.firstElementChild.textContent;
-          const modal = document.querySelector('.modal');
-          modal.classList.add('visible');
-        });
-      });
+      this.$store.dispatch('createCalendar');
+      this.$store.dispatch('getInputData');
+      this.$store.dispatch('modalShow');
     },
     nextMonth() {
       this.$store.dispatch('nextMonth');
-      const tds = document.querySelectorAll('tbody tr td');
-      tds.forEach(td => {
-        td.addEventListener('click', () => {
-          this.$store.dispatch('changeSavedData', parseInt(td.firstElementChild.textContent));
-          this.inputData.month = this.$store.state.month;
-          this.inputData.date = td.firstElementChild.textContent;
-          const modal = document.querySelector('.modal');
-          modal.classList.add('visible');
-        });
-      });
+      this.$store.dispatch('createCalendar');
+      this.$store.dispatch('getInputData');
+      this.$store.dispatch('modalShow');
     },
     modalClose() {
       const modal = document.querySelector('.modal');
@@ -265,9 +233,9 @@ export default {
         //日付が同じだった場合は金額を追加して更新したい
         const db = firebase.firestore();
         db.collection('total').add({
-          year: this.inputData.year,
-          month: this.inputData.month,
-          date: this.inputData.date,
+          year: this.dateGet.year,
+          month: this.dateGet.month,
+          date: this.dateGet.date,
           category: this.inputData.category,
           payment: parseInt(this.inputData.payment),
           diary: this.inputData.diary,

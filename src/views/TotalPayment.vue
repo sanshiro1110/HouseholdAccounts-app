@@ -33,6 +33,7 @@
     <div v-for="(ary, index) in listGet" :key="ary.id" class="datePaymentList">
       <ul class="totalPayment">
         <li>{{ ary.month }}月{{ ary.date}}日</li>
+        <li>{{ ary.category }}</li>
         <li>{{ ary.payment}}円</li>
       </ul>
       <span class="deleteList" id="deleteList" @click="deleteList(index)">[ x ]</span>
