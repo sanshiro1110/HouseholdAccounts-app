@@ -13,12 +13,12 @@
         内訳
       </h3>
       <ul>
-        <li>食費: {{ foodPaymentGet }}円</li>
-        <li>日用品: {{ dailyPaymentGet }}円</li>
-        <li>美容品: {{ cosmePaymentGet }}円</li>
-        <li>交際費: {{ entertainmentPaymentGet }}円</li>
-        <li>交通費: {{ transportationPaymentGet }}円</li>
-        <li>その他: {{ othersPaymentGet }}円</li>
+        <li>食費: {{ categoryPaymentsGet.food}}円</li>
+        <li>日用品: {{ categoryPaymentsGet.daily}}円</li>
+        <li>美容品: {{ categoryPaymentsGet.cosme}}円</li>
+        <li>交際費: {{ categoryPaymentsGet.entertainment}}円</li>
+        <li>交通費: {{ categoryPaymentsGet.transportation}}円</li>
+        <li>その他: {{ categoryPaymentsGet.others}}円</li>
       </ul>
     </div>
     <ul class="totalPayment">
@@ -134,54 +134,30 @@ export default {
     listGet() {
       return this.$store.state.inputData.list;
     },
-    foodPaymentGet() {
-      return this.$store.state.inputData.categoryPayments.food;
-    },
-    dailyPaymentGet() {
-      return this.$store.state.inputData.categoryPayments.daily;
-    },
-    cosmePaymentGet() {
-      return this.$store.state.inputData.categoryPayments.cosme;
-    },
-    entertainmentPaymentGet() {
-      return this.$store.state.inputData.categoryPayments.entertainment;
-    },
-    transportationPaymentGet() {
-      return this.$store.state.inputData.categoryPayments.transportation;
-    },
-    othersPaymentGet() {
-      return this.$store.state.inputData.categoryPayments.others;
+    categoryPaymentsGet() {
+      return this.$store.state.inputData.categoryPayments;
     },
   },
   methods: {
     deleteList(index) {
       if(confirm("本当に削除しますか")) {
+        this.$store.commit('monthTotalUpdate', index);
+        this.$store.commit('categoryPaymentUpdate', index);
         this.$store.dispatch('deleteList', index);
-        this.$store.dispatch('createCalendar');
-        // this.$store.dispatch('getInputData');
+        this.$store.dispatch('renderCalendarPayment');
       }
     },
     prevMonth() {
       this.$store.dispatch('prevMonth');
-      const tds = document.querySelectorAll('tbody tr td');
-      tds.forEach(td => {
-        td.addEventListener('click', () => {
-          this.$store.dispatch('changeSavedData', parseInt(td.firstElementChild.textContent));
-          const modal = document.querySelector('.modal');
-          modal.classList.add('visible');
-        });
-      });
+      this.$store.dispatch('createCalendar');
+      this.$store.dispatch('getInputData');
+      this.$store.dispatch('modalShow');
     },
     nextMonth() {
       this.$store.dispatch('nextMonth');
-      const tds = document.querySelectorAll('tbody tr td');
-      tds.forEach(td => {
-        td.addEventListener('click', () => {
-          this.$store.dispatch('changeSavedData', parseInt(td.firstElementChild.textContent));
-          const modal = document.querySelector('.modal');
-          modal.classList.add('visible');
-        });
-      });
+      this.$store.dispatch('createCalendar');
+      this.$store.dispatch('getInputData');
+      this.$store.dispatch('modalShow');
     },
   },
 }

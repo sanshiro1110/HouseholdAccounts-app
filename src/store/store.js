@@ -50,6 +50,10 @@ export default new Vuex.Store({
         state.inputData.month = 12;
         state.inputData.year -= 1;
       }
+      const tbody = document.querySelector('tbody');
+      while(tbody.firstChild) {
+        tbody.removeChild(tbody.firstChild);
+      }
     },
     nextMonth(state) {
       state.inputData.month += 1;
@@ -57,145 +61,10 @@ export default new Vuex.Store({
         state.inputData.month = 1;
         state.inputData.year += 1;
       }
-    },
-    createCalendar(state) {
-      let year = state.inputData.year;
-      let month = state.inputData.month - 1;
-      function createCalendar() {
-        const today = new Date();
-        function getCalendarHead() {
-          const dates = [];
-          const d = new Date(year, month, 0).getDate();
-          const n = new Date(year, month, 1).getDay();
-          for(let i = 0; i < n; i ++) {
-            dates.unshift({
-              date: d - i,
-              isToday: false,
-              isDisable: true,
-            });
-
-          }
-          return dates;
-        }
-
-        function getCalendarBody() {
-          const dates = [];
-          const lastDate = new Date(year, month + 1, 0).getDate();
-          for(let i = 1; i <= lastDate; i ++) {
-            dates.push({
-              date: i,
-              isToday: false,
-              isDisable: false,
-            });
-          }
-          if(year === today.getFullYear() && month === today.getMonth()) {
-            dates[today.getDate() - 1].isToday = true;
-          }
-          return dates;
-        }
-
-        function getCalendarTail() {
-          const dates = [];
-          const lastDay = new Date(year, month + 1, 0).getDay();
-          for(let i = 1; i < 7 - lastDay; i ++) {
-            dates.push({
-              date: i,
-              isToday: false,
-              isDisable: true,
-
-            });
-          }
-          return dates;
-        }
-        //prev,nextクリック時カレンダー削除
-        function clearCalendar() {
-          const tbody = document.querySelector('tbody');
-          while(tbody.firstChild) {
-            tbody.removeChild(tbody.firstChild);
-          }
-        }
-        //title作成
-        function renderTitle() {
-          const title = document.querySelector('#title');
-          title.textContent = `${year}/${String(month + 1).padStart(2, '0')}`;
-        }
-        //weeks作成
-        function renderWeeks() {
-          const dates = [
-            ...getCalendarHead(),
-            ...getCalendarBody(),
-            ...getCalendarTail(),
-          ]
-          const weeks = [];
-          const weeksCount = dates.length / 7;
-          for(let i = 0; i < weeksCount; i ++) {
-            weeks.push(dates.splice(0, 7));
-          }
-
-          weeks.forEach(week => {
-            const tr = document.createElement('tr');
-            week.forEach(date => {
-              const td = document.createElement('td');
-              td.classList.add('td');
-              const div = document.createElement('div');
-              td.appendChild(div);
-              div.textContent = date.date;
-              div.style.position = "absolute";
-              div.style.top = "3px";
-              div.style.left = "3px";
-              if(date.isToday) {
-                td.classList.add('today');
-              }
-              if(date.isDisable){
-                td.classList.add('disabled');
-              }
-              const span = document.createElement('span');
-              span.style.color = "#ff9966";
-              span.style.fontSize = "12px";
-              span.style.display = "block";
-              span.style.position = "absolute";
-              span.style.bottom = "0px";
-              span.style.right = "3px";
-              if(!date.isDisable) {
-                span.classList.add(date.date);
-              }
-              td.appendChild(span);
-              tr.appendChild(td);
-            });
-            document.querySelector('tbody').appendChild(tr);
-          });
-        }
-
-        function calendarBodyStyle() {
-          const sundayList = document.querySelectorAll('tbody tr td:first-child');
-          const saturdayList = document.querySelectorAll('tbody tr td:last-child');
-          for(let i = 0; i < sundayList.length; i ++) {
-            sundayList[i].style.color = "red";
-            saturdayList[i].style.color = "blue";
-          }
-          const calendarList = document.querySelectorAll('tbody tr td');
-          calendarList.forEach(td => {
-            if(td.classList.contains('today')) {
-              td.style.fontWeight = 'bold';
-              td.style.backgroundColor = '#eee';
-            }
-            if(td.classList.contains('disabled')) {
-              td.style.opacity = '0.5';
-            }
-            td.style.border = "1px solid black";
-            td.style.width = "calc(500px / 7)";
-            td.style.height = "50px";
-            td.style.position = "relative";
-            td.style.cursor = "pointer";
-          })
-        }
-
-        clearCalendar();
-        renderTitle();
-        renderWeeks();
-        calendarBodyStyle();
+      const tbody = document.querySelector('tbody');
+      while(tbody.firstChild) {
+        tbody.removeChild(tbody.firstChild);
       }
-      createCalendar();
     },
     renderCalendarPayment(state) {
       const arry = state.inputData.list;
@@ -232,9 +101,33 @@ export default new Vuex.Store({
       .doc(state.inputData.list[index].id)
       .delete()
       .then(function() {
-        state.inputData.list.splice(index, 1);
+        console.log('deleteList action finish');
       });
     },
+    monthTotalUpdate(state, index) {
+      state.inputData.monthTotal -= state.inputData.list[index].payment;
+    },
+    categoryPaymentUpdate(state, index) {
+      const hoge = state.inputData.list[index];
+      if(hoge.category == "食費") {
+        state.inputData.categoryPayments.food -= hoge.payment;
+      }
+      if(hoge.category == "日用品") {
+        state.inputData.categoryPayments.daily -= hoge.payment;
+      }
+      if(hoge.category == "美容品") {
+        state.inputData.categoryPayments.cosme -= hoge.payment;
+      }
+      if(hoge.category == "交際費") {
+        state.inputData.categoryPayments.entertainment -= hoge.payment;
+      }
+      if(hoge.category == "交通費") {
+        state.inputData.categoryPayments.transportation -= hoge.payment;
+      }
+      if(hoge.category == "その他") {
+        state.inputData.categoryPayments.others -= hoge.payment;
+      }
+    }
   },
   actions: {
     login(context, authData) {
@@ -333,7 +226,129 @@ export default new Vuex.Store({
       context.commit('nextMonth', number);
     },
     createCalendar(context) {
-      context.commit('createCalendar');
+      let year = context.state.inputData.year;
+      let month = context.state.inputData.month - 1;
+      function createCalendar() {
+        const today = new Date();
+        function getCalendarHead() {
+          const dates = [];
+          const d = new Date(year, month, 0).getDate();
+          const n = new Date(year, month, 1).getDay();
+          for(let i = 0; i < n; i ++) {
+            dates.unshift({
+              date: d - i,
+              isToday: false,
+              isDisable: true,
+            });
+
+          }
+          return dates;
+        }
+
+        function getCalendarBody() {
+          const dates = [];
+          const lastDate = new Date(year, month + 1, 0).getDate();
+          for(let i = 1; i <= lastDate; i ++) {
+            dates.push({
+              date: i,
+              isToday: false,
+              isDisable: false,
+            });
+          }
+          if(year === today.getFullYear() && month === today.getMonth()) {
+            dates[today.getDate() - 1].isToday = true;
+          }
+          return dates;
+        }
+
+        function getCalendarTail() {
+          const dates = [];
+          const lastDay = new Date(year, month + 1, 0).getDay();
+          for(let i = 1; i < 7 - lastDay; i ++) {
+            dates.push({
+              date: i,
+              isToday: false,
+              isDisable: true,
+
+            });
+          }
+          return dates;
+        }
+        //weeks作成
+        function renderWeeks() {
+          const dates = [
+            ...getCalendarHead(),
+            ...getCalendarBody(),
+            ...getCalendarTail(),
+          ]
+          const weeks = [];
+          const weeksCount = dates.length / 7;
+          for(let i = 0; i < weeksCount; i ++) {
+            weeks.push(dates.splice(0, 7));
+          }
+
+          weeks.forEach(week => {
+            const tr = document.createElement('tr');
+            week.forEach(date => {
+              const td = document.createElement('td');
+              td.classList.add('td');
+              const div = document.createElement('div');
+              td.appendChild(div);
+              div.textContent = date.date;
+              div.style.position = "absolute";
+              div.style.top = "3px";
+              div.style.left = "3px";
+              if(date.isToday) {
+                td.classList.add('today');
+              }
+              if(date.isDisable){
+                td.classList.add('disabled');
+              }
+              const span = document.createElement('span');
+              span.style.color = "#ff9966";
+              span.style.fontSize = "12px";
+              span.style.display = "block";
+              span.style.position = "absolute";
+              span.style.bottom = "0px";
+              span.style.right = "3px";
+              if(!date.isDisable) {
+                span.classList.add(date.date);
+              }
+              td.appendChild(span);
+              tr.appendChild(td);
+            });
+            document.querySelector('tbody').appendChild(tr);
+          });
+        }
+
+        function calendarBodyStyle() {
+          const sundayList = document.querySelectorAll('tbody tr td:first-child');
+          const saturdayList = document.querySelectorAll('tbody tr td:last-child');
+          for(let i = 0; i < sundayList.length; i ++) {
+            sundayList[i].style.color = "red";
+            saturdayList[i].style.color = "blue";
+          }
+          const calendarList = document.querySelectorAll('tbody tr td');
+          calendarList.forEach(td => {
+            if(td.classList.contains('today')) {
+              td.style.fontWeight = 'bold';
+              td.style.backgroundColor = '#eee';
+            }
+            if(td.classList.contains('disabled')) {
+              td.style.opacity = '0.5';
+            }
+            td.style.border = "1px solid black";
+            td.style.width = "calc(500px / 7)";
+            td.style.height = "50px";
+            td.style.position = "relative";
+            td.style.cursor = "pointer";
+          })
+        }
+
+        renderWeeks();
+        calendarBodyStyle();
+      }
+      createCalendar();
     },
     renderCalendarPayment(context) {
       context.commit('renderCalendarPayment');
@@ -370,7 +385,14 @@ export default new Vuex.Store({
       });
     },
     deleteList(context, index) {
-      context.commit('deleteList', index);
+      const db = firebase.firestore();
+      db.collection('total')
+      .doc(context.state.inputData.list[index].id)
+      .delete()
+      .then(function() {
+        context.state.inputData.list.splice(index, 1);
+        context.dispatch('createCalendar');
+      });
     },
     modalShow(context) {
       const tds = document.querySelectorAll('tbody tr td');

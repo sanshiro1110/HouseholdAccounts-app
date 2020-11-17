@@ -39,7 +39,7 @@
       <thead>
         <tr>
           <th class="prev" id="prev" @click="prevMonth">&laquo;</th>
-          <th class="title" id="title" colspan="5"></th>
+          <th class="title" id="title" colspan="5">{{ dateGet.year }}/{{ String(dateGet.month).padStart(2, '0') }}</th>
           <th class="next" id="next" @click="nextMonth">&raquo;</th>
         </tr>
         <tr>
@@ -203,8 +203,8 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('createCalendar');
     this.$store.dispatch('getInputData');
+    this.$store.dispatch('createCalendar');
     this.$store.dispatch('modalShow');
   },
   methods: {
