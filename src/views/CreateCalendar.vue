@@ -202,11 +202,6 @@ export default {
       }
     },
   },
-  mounted() {
-    this.$store.dispatch('getInputData');
-    this.$store.dispatch('createCalendar');
-    this.$store.dispatch('modalShow');
-  },
   methods: {
     prevMonth() {
       this.$store.dispatch('prevMonth');

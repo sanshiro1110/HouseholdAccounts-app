@@ -74,6 +74,9 @@
 </style>
 
 <script>
+import * as firebase from 'firebase';
+import store from './store/store';
+import router from "./router.js"
 
 export default {
   computed: {
@@ -94,6 +97,17 @@ export default {
       }
     }
   },
+  created() {
+    firebase.auth().onAuthStateChanged(user => {
+      if(user) {
+        store.commit('updateIdToken', user.uid);
+        router.push('/');
+        console.log('user autoLogin');
+      } else {
+        console.log('nobody login');
+      }
+    });
+  }
 }
 
 </script>

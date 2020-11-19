@@ -50,20 +50,12 @@ export default new Vuex.Store({
         state.inputData.month = 12;
         state.inputData.year -= 1;
       }
-      const tbody = document.querySelector('tbody');
-      while(tbody.firstChild) {
-        tbody.removeChild(tbody.firstChild);
-      }
     },
     nextMonth(state) {
       state.inputData.month += 1;
       if(state.inputData.month > 12) {
         state.inputData.month = 1;
         state.inputData.year += 1;
-      }
-      const tbody = document.querySelector('tbody');
-      while(tbody.firstChild) {
-        tbody.removeChild(tbody.firstChild);
       }
     },
     renderCalendarPayment(state) {
@@ -134,7 +126,6 @@ export default new Vuex.Store({
       firebase.auth().signInWithEmailAndPassword(authData.email, authData.password)
       .then(response => {
         context.commit('updateIdToken', response.user.uid);
-        router.push('/calendar');
         console.log("user login", response);
       });
     },
@@ -221,9 +212,11 @@ export default new Vuex.Store({
     },
     prevMonth(context, number) {
       context.commit('prevMonth', number);
+      context.dispatch('clearCalendar');
     },
     nextMonth(context, number) {
       context.commit('nextMonth', number);
+      context.dispatch('clearCalendar');
     },
     createCalendar(context) {
       let year = context.state.inputData.year;
@@ -349,6 +342,7 @@ export default new Vuex.Store({
         calendarBodyStyle();
       }
       createCalendar();
+      console.log('createCalendar mutation finish');
     },
     renderCalendarPayment(context) {
       context.commit('renderCalendarPayment');
@@ -391,7 +385,6 @@ export default new Vuex.Store({
       .delete()
       .then(function() {
         context.state.inputData.list.splice(index, 1);
-        context.dispatch('createCalendar');
       });
     },
     modalShow(context) {
@@ -404,6 +397,12 @@ export default new Vuex.Store({
         modal.classList.add('visible');
       });
     });
+    },
+    clearCalendar() {
+      const tbody = document.querySelector('tbody');
+      while(tbody.firstChild) {
+        tbody.removeChild(tbody.firstChild);
+      }
     }
   },
   // plugins: [createPersistedState({storage: window.localStorage})],

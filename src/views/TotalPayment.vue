@@ -144,6 +144,8 @@ export default {
         this.$store.commit('monthTotalUpdate', index);
         this.$store.commit('categoryPaymentUpdate', index);
         this.$store.dispatch('deleteList', index);
+        this.$store.dispatch('clearCalendar');
+        this.$store.dispatch('createCalendar');
         this.$store.dispatch('renderCalendarPayment');
       }
     },

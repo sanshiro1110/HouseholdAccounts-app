@@ -20,6 +20,13 @@ export default {
     CreateCalendar,
     TotalPayment,
   },
+  mounted() {
+    this.$nextTick(function() {
+    this.$store.dispatch('getInputData');
+    this.$store.dispatch('createCalendar');
+    this.$store.dispatch('modalShow');
+    });
+  },
 }
 
 
