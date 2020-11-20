@@ -12,6 +12,7 @@ const today = new Date();
 export default new Vuex.Store({
   state: {
     idToken: "",
+    usersDocumentId: "",
     inputData: {
       year: today.getFullYear(),
       month: today.getMonth() + 1,
@@ -89,7 +90,7 @@ export default new Vuex.Store({
     },
     deleteList(state, index) {
       const db = firebase.firestore();
-      db.collection('total')
+      db.collection('postData')
       .doc(state.inputData.list[index].id)
       .delete()
       .then(function() {
@@ -119,22 +120,35 @@ export default new Vuex.Store({
       if(hoge.category == "その他") {
         state.inputData.categoryPayments.others -= hoge.payment;
       }
+    },
+    updateUsersDocumentId(state, id) {
+      state.usersDocumentId = id;
     }
   },
   actions: {
     login(context, authData) {
       firebase.auth().signInWithEmailAndPassword(authData.email, authData.password)
       .then(response => {
-        context.commit('updateIdToken', response.user.uid);
-        console.log("user login", response);
+        console.log('user login', response.user.uid);
+        // context.commit('updateUsersDocumentId', localStorage.getItem('usersDocumentId'));
       });
     },
     register(context, authData) {
       firebase.auth().createUserWithEmailAndPassword(authData.email, authData.password)
       .then(response => {
         context.commit('updateIdToken', response.user.uid);
-        // router.replace('/');
         console.log('user register', response);
+
+        const db = firebase.firestore();
+        db.collection('users').add({
+          email: authData.email,
+          password:authData.password
+        })
+        .then(response => {
+          this.commit('updateUsersDocumentId', response.id);
+          localStorage.setItem('usersDocumentId', response.id);
+        });
+
       });
     },
     logout(context) {
@@ -142,6 +156,7 @@ export default new Vuex.Store({
         context.commit('updateIdToken', "");
         router.push('/login');
         console.log('signout success');
+        // localStorage.removeItem('usersDocumentId');
       });
     },
     clearData(context) {
@@ -181,7 +196,9 @@ export default new Vuex.Store({
       }
 
       const db = firebase.firestore();
-      db.collection('total')
+      db.collection('users')
+      .doc(context.state.usersDocumentId)
+      .collection('postData')
       .where("month", "==", context.state.inputData.month)
       .orderBy("date", "desc")
       .get()
@@ -357,7 +374,7 @@ export default new Vuex.Store({
       let dateTotal = 0;
 
       const db = firebase.firestore();
-      db.collection('total')
+      db.collection('postData')
       .where("date", "==", date)
       .where("month", "==", context.state.inputData.month)
       // .orderBy("payment", "desc")
@@ -380,7 +397,9 @@ export default new Vuex.Store({
     },
     deleteList(context, index) {
       const db = firebase.firestore();
-      db.collection('total')
+      db.collection('users')
+      .doc(context.state.usersDocumentId)
+      .collection('postData')
       .doc(context.state.inputData.list[index].id)
       .delete()
       .then(function() {
@@ -403,7 +422,7 @@ export default new Vuex.Store({
       while(tbody.firstChild) {
         tbody.removeChild(tbody.firstChild);
       }
-    }
+    },
   },
   // plugins: [createPersistedState({storage: window.localStorage})],
 });

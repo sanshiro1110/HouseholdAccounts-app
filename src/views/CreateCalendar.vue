@@ -193,6 +193,9 @@ export default {
         date: this.$store.state.clickData.date,
       }
     },
+    getUsersDocumentId() {
+      return this.$store.state.usersDocumentId;
+    },
     dateDiaryGet() {
       const n = this.dateListGet.length;
       if(n > 0) {
@@ -227,7 +230,10 @@ export default {
         alert('保存されました');
         //日付が同じだった場合は金額を追加して更新したい
         const db = firebase.firestore();
-        db.collection('total').add({
+        db.collection('users')
+        .doc(this.getUsersDocumentId)
+        .collection('postData')
+        .add({
           year: this.dateGet.year,
           month: this.dateGet.month,
           date: this.dateGet.date,

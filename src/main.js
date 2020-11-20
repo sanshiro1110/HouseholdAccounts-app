@@ -38,11 +38,11 @@ Vue.config.productionTip = false;
 //     console.log('nobody login');
 //   }
 // });
+
 new Vue({
   router,
   store,
   render: h => h(App),
 }).$mount('#app');
-
 
 

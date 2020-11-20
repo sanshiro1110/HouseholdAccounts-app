@@ -50,6 +50,11 @@ export default {
       categories: ["食費", "日用品", "美容品", "交際費", "交通費", "その他"],
     }
   },
+  computed: {
+    getUsersDocumentId() {
+      return this.$store.state.usersDocumentId;
+    }
+  },
   // watch: {
   //   inputData: {
   //     handler() {
@@ -106,7 +111,7 @@ export default {
       if(this.inputData.payment !== 0) {
         alert('保存されました');
         const db = firebase.firestore();
-        db.collection('total').add({
+        db.collection('users').doc(this.getUsersDocumentId).collection('postData').add({
           year: this.inputData.year,
           month: this.inputData.month,
           date: this.inputData.date,
@@ -114,10 +119,7 @@ export default {
           payment: parseInt(this.inputData.payment),
           diary: this.inputData.diary,
         }).then(response => {
-          // console.log('dataRequest response', response.id);
-          db.collection('total').doc(response.id).set({
-            id: response.id
-          }, { merge: true });
+          console.log('dateRequest', response);
           this.inputData.category = "食費";
           this.inputData.payment = 0;
           this.inputData.diary = "";
