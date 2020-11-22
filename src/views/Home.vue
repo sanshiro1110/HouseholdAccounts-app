@@ -55,18 +55,6 @@ export default {
       return this.$store.state.usersDocumentId;
     }
   },
-  // watch: {
-  //   inputData: {
-  //     handler() {
-  //       localStorage.setItem('inputData', JSON.stringify(this.inputData));
-  //     },
-  //     deep: true
-  //   }
-  // },
-  //最初はいらないエラーになる！
-  // mounted() {
-  //   this.inputData = JSON.parse(localStorage.getItem('inputData'));
-  // },
   methods: {
     prevDay() {
       this.inputData.date --;
@@ -120,6 +108,12 @@ export default {
           diary: this.inputData.diary,
         }).then(response => {
           console.log('dateRequest', response);
+          db.collection('users')
+          .doc(this.getUsersDocumentId)
+          .collection('postData')
+          .doc(response.id).set({
+            id: response.id
+          }, { merge: true });
           this.inputData.category = "食費";
           this.inputData.payment = 0;
           this.inputData.diary = "";
