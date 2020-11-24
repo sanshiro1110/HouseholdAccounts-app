@@ -16,7 +16,9 @@
         <div>
           メモ
           <br><br>
-          {{ dateDiaryGet }}
+          <ul v-for="(diary, index) in dateListGet" :key="index">
+            <li v-if="diary.dateIndication">{{ diary.diary }}</li>
+          </ul>
         </div>
       </div>
       <div class="modal-changePaymentData">
@@ -58,7 +60,7 @@
 
       <tfoot>
         <tr>
-          <td id="today" colspan="7">Today</td>
+          <td id="today" colspan="7" @click="goToday">Today</td>
         </tr>
       </tfoot>
     </table>
@@ -240,10 +242,31 @@ export default {
           category: this.inputData.category,
           payment: parseInt(this.inputData.payment),
           diary: this.inputData.diary,
-        }).then(() => {
+        }).then(response => {
+          console.log('dateRequest', response);
+          db.collection('users')
+          .doc(this.getUsersDocumentId)
+          .collection('postData')
+          .doc(response.id).set({
+            id: response.id
+          }, { merge: true });
+          this.inputData.category = "食費";
+          this.inputData.payment = 0;
+          this.inputData.diary = "";
           location.reload();
         });
       }
+    },
+    goToday() {
+      const today = new Date();
+      const date = {
+        year: today.getFullYear(),
+        month: today.getMonth() + 1,
+      }
+      this.$store.dispatch('goToday', date);
+      this.$store.dispatch('clearCalendar');
+      this.$store.dispatch('createCalendar');
+      this.$store.dispatch('getInputData');
     }
   },
 }

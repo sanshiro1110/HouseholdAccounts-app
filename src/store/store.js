@@ -123,6 +123,10 @@ export default new Vuex.Store({
     },
     updateUsersDocumentId(state, id) {
       state.usersDocumentId = id;
+    },
+    goToday(state, date) {
+      state.inputData.year = date.year;
+      state.inputData.month = date.month;
     }
   },
   actions: {
@@ -137,7 +141,6 @@ export default new Vuex.Store({
       firebase.auth().createUserWithEmailAndPassword(authData.email, authData.password)
       .then(response => {
         context.commit('updateIdToken', response.user.uid);
-        console.log('user register', response);
 
         const db = firebase.firestore();
         db.collection('users').add({
@@ -145,10 +148,8 @@ export default new Vuex.Store({
           password:authData.password
         })
         .then(response => {
-          this.commit('updateUsersDocumentId', response.id);
           localStorage.setItem('usersDocumentId', response.id);
         });
-
       });
     },
     logout(context) {
@@ -370,20 +371,31 @@ export default new Vuex.Store({
         category: "食費",
         payment: 0,
         diary: "",
+        diaryIndication: true,
       }];
       let dateTotal = 0;
 
       const db = firebase.firestore();
-      db.collection('postData')
+      db.collection('users')
+      .doc(context.state.usersDocumentId)
+      .collection('postData')
       .where("date", "==", date)
       .where("month", "==", context.state.inputData.month)
       // .orderBy("payment", "desc")
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(function(doc) {
-          dateList.push({
-            ...doc.data()
-          });
+          if(doc.data().diary == "") {
+            dateList.push({
+            ...doc.data(),
+            dateIndication: false,
+            });
+          } else {
+            dateList.push({
+              ...doc.data(),
+              dateIndication: true,
+            });
+          }
           dateTotal += doc.data().payment;
         });
         dateList.shift();
@@ -412,8 +424,7 @@ export default new Vuex.Store({
       td.addEventListener('click', () => {
         const number = parseInt(td.firstElementChild.textContent);
         context.dispatch('getClickedData', number);
-        const modal = document.querySelector('.modal');
-        modal.classList.add('visible');
+        document.querySelector('.modal').classList.add('visible');
       });
     });
     },
@@ -423,6 +434,9 @@ export default new Vuex.Store({
         tbody.removeChild(tbody.firstChild);
       }
     },
+    goToday(context, date) {
+      context.commit('goToday', date);
+    }
   },
   // plugins: [createPersistedState({storage: window.localStorage})],
 });

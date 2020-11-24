@@ -22,11 +22,16 @@ export default {
   },
   methods: {
     register() {
-      const userData = {
-        email: this.email,
-        password: this.password,
+      if(confirm('新しくアカウントを作成すると、既存のアカウント情報が全て削除されてしまいます。よろしいですか？')) {
+        localStorage.removeItem('usersDocumentId');
+        this.$store.commit('updateUsersDocumentId', "");
+
+        const userData = {
+          email: this.email,
+          password: this.password,
+        }
+        this.$store.dispatch('register', userData);
       }
-      this.$store.dispatch('register', userData);
     }
   },
 }

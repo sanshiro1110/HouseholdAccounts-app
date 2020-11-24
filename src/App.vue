@@ -97,16 +97,18 @@ export default {
       }
     }
   },
-  created() {
-    firebase.auth().onAuthStateChanged(user => {
-      if(user) {
-        store.commit('updateIdToken', user.uid);
-        store.commit('updateUsersDocumentId', localStorage.getItem('usersDocumentId'));
-        console.log('autoLogin', user);
-        router.push('/calendar');
-      } else {
-        console.log('nobody login');
-      }
+  mounted() {
+    window.addEventListener('load', function() {
+      firebase.auth().onAuthStateChanged(user => {
+        if(user) {
+          store.commit('updateIdToken', user.uid);
+          store.commit('updateUsersDocumentId', localStorage.getItem('usersDocumentId'));
+          console.log('autoLogin', user);
+          router.push('/calendar');
+        } else {
+          console.log('nobody login');
+        }
+      });
     });
   }
 }
