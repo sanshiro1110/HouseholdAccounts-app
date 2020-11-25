@@ -115,22 +115,52 @@ export default {
     },
 
     foodPercentage() {
-      return ((this.$store.state.inputData.categoryPayments.food / this.$store.state.inputData.monthTotal) * 100).toFixed(1);
+      const percentage = ((this.$store.state.inputData.categoryPayments.food / this.$store.state.inputData.monthTotal) * 100).toFixed(1);
+      if(percentage != isNaN) {
+        return '0';
+      } else {
+        return percentage;
+      }
     },
     dailyPercentage() {
-      return ((this.$store.state.inputData.categoryPayments.daily / this.$store.state.inputData.monthTotal) * 100).toFixed(1);
+      const percentage = ((this.$store.state.inputData.categoryPayments.daily / this.$store.state.inputData.monthTotal) * 100).toFixed(1);
+      if(percentage != isNaN) {
+        return '0';
+      } else {
+        return percentage;
+      }
     },
     cosmePercentage() {
-      return ((this.$store.state.inputData.categoryPayments.cosme / this.$store.state.inputData.monthTotal) * 100).toFixed(1);
+      const percentage = ((this.$store.state.inputData.categoryPayments.cosme / this.$store.state.inputData.monthTotal) * 100).toFixed(1);
+      if(percentage != isNaN) {
+        return '0';
+      } else {
+        return percentage;
+      }
     },
     entertainmentPercentage() {
-      return ((this.$store.state.inputData.categoryPayments.entertainment / this.$store.state.inputData.monthTotal) * 100).toFixed(1);
+      const percentage = ((this.$store.state.inputData.categoryPayments.entertainment / this.$store.state.inputData.monthTotal) * 100).toFixed(1);
+      if(percentage != isNaN) {
+        return '0';
+      } else {
+        return percentage;
+      }
     },
     transportationPercentage() {
-      return ((this.$store.state.inputData.categoryPayments.transportation / this.$store.state.inputData.monthTotal) * 100).toFixed(1);
+      const percentage = ((this.$store.state.inputData.categoryPayments.transportation / this.$store.state.inputData.monthTotal) * 100).toFixed(1);
+      if(percentage != isNaN) {
+        return '0';
+      } else {
+        return percentage;
+      }
     },
     othersPercentage() {
-      return ((this.$store.state.inputData.categoryPayments.others / this.$store.state.inputData.monthTotal) * 100).toFixed(1);
+      const percentage = ((this.$store.state.inputData.categoryPayments.others / this.$store.state.inputData.monthTotal) * 100).toFixed(1);
+      if(percentage != isNaN) {
+        return '0';
+      } else {
+        return percentage;
+      }
     },
   },
   created() {
