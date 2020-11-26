@@ -133,8 +133,7 @@ export default new Vuex.Store({
     login(context, authData) {
       firebase.auth().signInWithEmailAndPassword(authData.email, authData.password)
       .then(response => {
-        console.log('user login', response.user.uid);
-        // context.commit('updateUsersDocumentId', localStorage.getItem('usersDocumentId'));
+        console.log('user login', response.user);
       });
     },
     register(context, authData) {
@@ -148,6 +147,10 @@ export default new Vuex.Store({
           password:authData.password
         })
         .then(response => {
+          db.collection('users').doc(response.id).set({
+            documentId: response.id,
+          }, {merge: true});
+          localStorage.removeItem('usersDocumentId');
           localStorage.setItem('usersDocumentId', response.id);
         });
       });
