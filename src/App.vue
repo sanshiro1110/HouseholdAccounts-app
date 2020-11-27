@@ -102,7 +102,6 @@ export default {
       firebase.auth().onAuthStateChanged(user => {
         if(user) {
           store.commit('updateIdToken', user.uid);
-          store.commit('updateUsersDocumentId', localStorage.getItem('usersDocumentId'));
           console.log('autoLogin', user);
           router.push('/calendar');
         } else {

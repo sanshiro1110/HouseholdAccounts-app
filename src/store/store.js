@@ -12,7 +12,6 @@ const today = new Date();
 export default new Vuex.Store({
   state: {
     idToken: "",
-    usersDocumentId: "",
     inputData: {
       year: today.getFullYear(),
       month: today.getMonth() + 1,
@@ -59,23 +58,6 @@ export default new Vuex.Store({
         state.inputData.year += 1;
       }
     },
-    renderCalendarPayment(state) {
-      const arry = state.inputData.list;
-      const spanArry = document.querySelectorAll('.td span');
-      spanArry.forEach(span => {
-        let total = 0;
-        arry.forEach(ary => {
-          if(ary.date == span.className) {
-            total+= ary.payment;
-          }
-        });
-        if(total === 0) {
-          span.textContent = "";
-        } else{
-          span.textContent = total;
-        }
-      });
-    },
     getDateList(state, dateList) {
       state.clickData.dateList = dateList;
     },
@@ -89,13 +71,7 @@ export default new Vuex.Store({
       state.inputData = initializedData;
     },
     deleteList(state, index) {
-      const db = firebase.firestore();
-      db.collection('postData')
-      .doc(state.inputData.list[index].id)
-      .delete()
-      .then(function() {
-        console.log('deleteList action finish');
-      });
+      state.inputData.list.splice(index, 1);
     },
     monthTotalUpdate(state, index) {
       state.inputData.monthTotal -= state.inputData.list[index].payment;
@@ -121,9 +97,6 @@ export default new Vuex.Store({
         state.inputData.categoryPayments.others -= hoge.payment;
       }
     },
-    updateUsersDocumentId(state, id) {
-      state.usersDocumentId = id;
-    },
     goToday(state, date) {
       state.inputData.year = date.year;
       state.inputData.month = date.month;
@@ -142,16 +115,12 @@ export default new Vuex.Store({
         context.commit('updateIdToken', response.user.uid);
 
         const db = firebase.firestore();
-        db.collection('users').add({
+        db.collection('users').doc(response.user.uid).set({
           email: authData.email,
           password:authData.password
         })
         .then(response => {
-          db.collection('users').doc(response.id).set({
-            documentId: response.id,
-          }, {merge: true});
-          localStorage.removeItem('usersDocumentId');
-          localStorage.setItem('usersDocumentId', response.id);
+          console.log(response);
         });
       });
     },
@@ -160,7 +129,6 @@ export default new Vuex.Store({
         context.commit('updateIdToken', "");
         router.push('/login');
         console.log('signout success');
-        // localStorage.removeItem('usersDocumentId');
       });
     },
     clearData(context) {
@@ -201,7 +169,7 @@ export default new Vuex.Store({
 
       const db = firebase.firestore();
       db.collection('users')
-      .doc(context.state.usersDocumentId)
+      .doc(context.state.idToken)
       .collection('postData')
       .where("month", "==", context.state.inputData.month)
       .orderBy("date", "desc")
@@ -228,7 +196,8 @@ export default new Vuex.Store({
           // console.log('docのid', doc.id);
         });
         context.commit('getInputData', newData);
-        context.dispatch('renderCalendarPayment');
+        const list = context.state.inputData.list;
+        context.dispatch('renderCalendarPayment', list);
       });
     },
     prevMonth(context, number) {
@@ -365,8 +334,22 @@ export default new Vuex.Store({
       createCalendar();
       console.log('createCalendar mutation finish');
     },
-    renderCalendarPayment(context) {
-      context.commit('renderCalendarPayment');
+    renderCalendarPayment(context, list) {
+      // const arry = state.inputData.list;
+      const spanArry = document.querySelectorAll('.td span');
+      spanArry.forEach(span => {
+        let total = 0;
+        list.forEach(ary => {
+          if(ary.date == span.className) {
+            total+= ary.payment;
+          }
+        });
+        if(total === 0) {
+          span.textContent = "";
+        } else{
+          span.textContent = total;
+        }
+      });
     },
     getClickedData(context, date) {
       let dateList = [{
@@ -380,7 +363,7 @@ export default new Vuex.Store({
 
       const db = firebase.firestore();
       db.collection('users')
-      .doc(context.state.usersDocumentId)
+      .doc(context.state.idToken)
       .collection('postData')
       .where("date", "==", date)
       .where("month", "==", context.state.inputData.month)
@@ -411,14 +394,22 @@ export default new Vuex.Store({
       });
     },
     deleteList(context, index) {
+      context.commit('deleteList', index);
+      return context.state.inputData.list;
+    },
+    deleteData(context, index) {
       const db = firebase.firestore();
       db.collection('users')
-      .doc(context.state.usersDocumentId)
+      .doc(context.state.idToken)
       .collection('postData')
       .doc(context.state.inputData.list[index].id)
       .delete()
-      .then(function() {
-        context.state.inputData.list.splice(index, 1);
+      .then(() => {
+        async function deleteList() {
+          const list = await context.dispatch('deleteList', index);
+          context.dispatch('renderCalendarPayment', list);
+        }
+        deleteList();
       });
     },
     modalShow(context) {
@@ -441,6 +432,5 @@ export default new Vuex.Store({
       context.commit('goToday', date);
     }
   },
-  // plugins: [createPersistedState({storage: window.localStorage})],
 });
 

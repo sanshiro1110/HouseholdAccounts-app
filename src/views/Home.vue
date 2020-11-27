@@ -51,8 +51,9 @@ export default {
     }
   },
   computed: {
+    //idToken = documentId
     getUsersDocumentId() {
-      return this.$store.state.usersDocumentId;
+      return this.$store.state.idToken;
     }
   },
   methods: {

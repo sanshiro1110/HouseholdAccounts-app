@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     register() {
-      if(confirm('新しくアカウントを作成すると、既存のアカウント情報が全て削除されてしまいます。よろしいですか？')) {
+      if(confirm('新しくアカウントを作成します。よろしいですか？')) {
         localStorage.removeItem('usersDocumentId');
         this.$store.commit('updateUsersDocumentId', "");
 

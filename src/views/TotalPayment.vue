@@ -143,10 +143,7 @@ export default {
       if(confirm("本当に削除しますか")) {
         this.$store.commit('monthTotalUpdate', index);
         this.$store.commit('categoryPaymentUpdate', index);
-        this.$store.dispatch('deleteList', index);
-        this.$store.dispatch('clearCalendar');
-        this.$store.dispatch('createCalendar');
-        this.$store.dispatch('renderCalendarPayment');
+        this.$store.dispatch('deleteData', index);
       }
     },
     prevMonth() {

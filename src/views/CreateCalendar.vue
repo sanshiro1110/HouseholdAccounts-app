@@ -195,8 +195,9 @@ export default {
         date: this.$store.state.clickData.date,
       }
     },
+    //idToken = documentId
     getUsersDocumentId() {
-      return this.$store.state.usersDocumentId;
+      return this.$store.state.idToken;
     },
     dateDiaryGet() {
       const n = this.dateListGet.length;
