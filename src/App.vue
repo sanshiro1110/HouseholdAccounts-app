@@ -33,11 +33,35 @@
   font-weight: bold;
   width: 600px;
   margin: 0 auto;
+  padding: 0;
+  letter-spacing: 0.5px;
+}
+
+*, *::after, *::before {
+  box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6,p {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
 }
 
 .container {
-
   border: solid 1px #2c3e50;
+}
+
+.router-link {
+  margin-bottom: 15px;
+  padding-top: 30px;
 }
 
 .navLink {
@@ -52,16 +76,6 @@
   margin-bottom: 10px;
 }
 
-*, *::after, *::before {
-  box-sizing: border-box;
-  font-size: 15px;
-}
-
-.router-link {
-  margin-bottom: 15px;
-  padding-top: 30px;
-}
-
 .logout-button {
   margin-bottom: 15px;
   display: flex;
@@ -71,6 +85,7 @@
 .logout {
   font-size: 12px;
 }
+
 </style>
 
 <script>

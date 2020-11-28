@@ -1,15 +1,9 @@
 <template>
-  <div id="app">
+  <div>
     <CreateCalendar></CreateCalendar>
     <TotalPayment></TotalPayment>
   </div>
 </template>
-
-<style scoped>
-#app {
-  height: 100%;
-}
-</style>
 
 <script>
 import CreateCalendar from './CreateCalendar';

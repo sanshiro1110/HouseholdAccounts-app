@@ -30,19 +30,26 @@
       </li>
     </ul>
     <hr>
-    <div v-for="(ary, index) in listGet" :key="ary.id" class="datePaymentLists">
-      <ul class="totalPayment datePaymentList">
-        <li>{{ ary.month }}月{{ ary.date}}日</li>
-        <li>{{ ary.category }}</li>
-        <li>{{ ary.payment}}円</li>
-      </ul>
-      <span class="deleteList" @click="deleteList(index)">[ x ]</span>
-      <hr>
+    <div class="hoge">
+      <div v-for="(ary, index) in listGet" :key="ary.id" class="datePaymentLists">
+        <ul class="totalPayment datePaymentList">
+          <li>{{ ary.month }}月{{ ary.date}}日</li>
+          <li>{{ ary.category }}</li>
+          <li>{{ ary.payment}}円</li>
+        </ul>
+        <span class="deleteList" @click="deleteList(index)">[ x ]</span>
+        <hr>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+.hoge {
+  height: 300px;
+  overflow-y: scroll;
+}
+
 hr {
   margin: 0;
 }
@@ -73,8 +80,10 @@ ul {
 .category ul{
   display: flex;
   justify-content: space-around;
-  width: 700px;
-  margin: 10px auto 20px;
+}
+
+.category ul li {
+  font-size: 14px;
 }
 
 .prevMonth {

@@ -16,7 +16,7 @@ function loginAuth(to, from, next) {
       next();
     } else {
       store.dispatch('updateIsAuthenticated', false);
-      console.log('nobody login');
+      console.log('nobody logging in');
       next('/login');
     }
   });
@@ -30,7 +30,7 @@ function notLoginAuth(to, from, next) {
       next('/calendar');
     } else {
       store.dispatch('updateIsAuthenticated', false);
-      console.log('nobody login');
+      console.log('nobody logging in');
       next();
     }
   });

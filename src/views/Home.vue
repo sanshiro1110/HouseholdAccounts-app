@@ -29,6 +29,23 @@
   </div>
 </template>
 
+<style scoped>
+  .changeButton {
+    cursor: pointer;
+    display: inline-block;
+    border: 1px solid #2c3e50;
+    padding: 2px;
+  }
+
+  .buttonArea {
+    margin-top: 20px;
+  }
+
+  .save {
+    cursor: pointer;
+  }
+</style>
+
 <script>
 import * as firebase from 'firebase';
 // import router from "../router.js";
@@ -108,7 +125,6 @@ export default {
           payment: parseInt(this.inputData.payment),
           diary: this.inputData.diary,
         }).then(response => {
-          console.log('dateRequest', response);
           db.collection('users')
           .doc(this.getUsersDocumentId)
           .collection('postData')
@@ -124,19 +140,4 @@ export default {
   },
 }
 </script>
-<style scoped>
-  .changeButton {
-    cursor: pointer;
-    display: inline-block;
-    border: 1px solid #2c3e50;
-    padding: 2px;
-  }
 
-  .buttonArea {
-    margin-top: 20px;
-  }
-
-  .save {
-    cursor: pointer;
-  }
-</style>

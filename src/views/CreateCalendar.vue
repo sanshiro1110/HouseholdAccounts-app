@@ -195,7 +195,6 @@ export default {
         date: this.$store.getters.clickData.date,
       }
     },
-    //idToken = documentId
     getUsersDocumentId() {
       return this.$store.getters.idToken;
     },
@@ -244,7 +243,6 @@ export default {
           payment: parseInt(this.inputData.payment),
           diary: this.inputData.diary,
         }).then(response => {
-          console.log('dateRequest', response);
           db.collection('users')
           .doc(this.getUsersDocumentId)
           .collection('postData')

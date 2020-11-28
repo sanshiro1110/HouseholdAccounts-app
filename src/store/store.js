@@ -111,8 +111,11 @@ export default new Vuex.Store({
   actions: {
     login(context, authData) {
       firebase.auth().signInWithEmailAndPassword(authData.email, authData.password)
-      .then(response => {
-        console.log('user login', response.user);
+      .then(() => {
+        console.log('user login success');
+      })
+      .catch(() => {
+        console.log('user login failed');
       });
     },
     register(context, authData) {
@@ -125,21 +128,20 @@ export default new Vuex.Store({
           email: authData.email,
           password:authData.password
         })
-        .then(response => {
-          console.log(response);
+        .then(() => {
+          console.log('user register success');
+        })
+        .catch(() => {
+          console.log('user register failed');
         });
       });
     },
     logout(context) {
       firebase.auth().signOut().then(() => {
         context.commit('updateIdToken', "");
-        firebase.auth().onAuthStateChanged(user => {
-          if(user) {
-            console.log('user login now');
-          } else {
-            console.log('sign out success');
-          }
-        })
+        console.log('user logout success');
+      }).catch(() => {
+        console.log('user logout failed');
       });
     },
     updateIdToken(context, idToken) {
@@ -210,7 +212,6 @@ export default new Vuex.Store({
           } else if(doc.data().category == "その他") {
             newData.categoryPayments.others += doc.data().payment;
           }
-          // console.log('docのid', doc.id);
         });
         context.commit('getInputData', newData);
         const list = context.state.inputData.list;
@@ -349,7 +350,6 @@ export default new Vuex.Store({
         calendarBodyStyle();
       }
       createCalendar();
-      console.log('createCalendar mutation finish');
     },
     renderCalendarPayment(context, list) {
       const spanArry = document.querySelectorAll('.td span');
@@ -404,9 +404,6 @@ export default new Vuex.Store({
         context.commit('getDateList', dateList);
         context.commit('getDateTotal', dateTotal);
         context.commit('getDate', date);
-      })
-      .catch(error => {
-        console.log("getClickedData error", error);
       });
     },
     deleteList(context, index) {

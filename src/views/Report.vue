@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div>
     <div class="monthTotal">
       <h3>
         {{ inputDataGet.month }}月の支出合計<br>
@@ -88,48 +88,48 @@ export default {
     },
 
     foodPercentage() {
-      const percentage = ((this.$store.getters.inputData.categoryPayments.food / this.$store.getters.inputData.monthTotal) * 100).toFixed(1);
-      if(percentage != isNaN) {
+      let percentage = ((this.$store.getters.inputData.categoryPayments.food / this.$store.getters.inputData.monthTotal) * 100).toFixed(1);
+      if(percentage == isNaN) {
         return '0';
       } else {
         return percentage;
       }
     },
     dailyPercentage() {
-      const percentage = ((this.$store.getters.inputData.categoryPayments.daily / this.$store.getters.inputData.monthTotal) * 100).toFixed(1);
-      if(percentage != isNaN) {
+      let percentage = ((this.$store.getters.inputData.categoryPayments.daily / this.$store.getters.inputData.monthTotal) * 100).toFixed(1);
+      if(percentage == isNaN) {
         return '0';
       } else {
         return percentage;
       }
     },
     cosmePercentage() {
-      const percentage = ((this.$store.getters.inputData.categoryPayments.cosme / this.$store.getters.inputData.monthTotal) * 100).toFixed(1);
-      if(percentage != isNaN) {
+      let percentage = ((this.$store.getters.inputData.categoryPayments.cosme / this.$store.getters.inputData.monthTotal) * 100).toFixed(1);
+      if(percentage == isNaN) {
         return '0';
       } else {
         return percentage;
       }
     },
     entertainmentPercentage() {
-      const percentage = ((this.$store.getters.inputData.categoryPayments.entertainment / this.$store.getters.inputData.monthTotal) * 100).toFixed(1);
-      if(percentage != isNaN) {
+      let percentage = ((this.$store.getters.inputData.categoryPayments.entertainment / this.$store.getters.inputData.monthTotal) * 100).toFixed(1);
+      if(percentage == isNaN) {
         return '0';
       } else {
         return percentage;
       }
     },
     transportationPercentage() {
-      const percentage = ((this.$store.getters.inputData.categoryPayments.transportation / this.$store.getters.inputData.monthTotal) * 100).toFixed(1);
-      if(percentage != isNaN) {
+      let percentage = ((this.$store.getters.inputData.categoryPayments.transportation / this.$store.getters.inputData.monthTotal) * 100).toFixed(1);
+      if(percentage == isNaN) {
         return '0';
       } else {
         return percentage;
       }
     },
     othersPercentage() {
-      const percentage = ((this.$store.getters.inputData.categoryPayments.others / this.$store.getters.inputData.monthTotal) * 100).toFixed(1);
-      if(percentage != isNaN) {
+      let percentage = ((this.$store.getters.inputData.categoryPayments.others / this.$store.getters.inputData.monthTotal) * 100).toFixed(1);
+      if(percentage == isNaN) {
         return '0';
       } else {
         return percentage;
