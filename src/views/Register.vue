@@ -23,8 +23,6 @@ export default {
   methods: {
     register() {
       if(confirm('新しくアカウントを作成します。よろしいですか？')) {
-        localStorage.removeItem('usersDocumentId');
-        this.$store.commit('updateUsersDocumentId', "");
 
         const userData = {
           email: this.email,

@@ -2,19 +2,19 @@
   <div id="app">
     <div class="monthTotal">
       <h3>
-        {{ monthGet }}月の支出合計<br>
-        {{ monthTotalGet }}円
+        {{ inputDataGet.month }}月の支出合計<br>
+        {{ inputDataGet.monthTotal }}円
       </h3>
     </div>
     <div class="chart">
       <pie-chart
         :data="[
-          ['食費', foodPaymentGet],
-          ['日用品', dailyPaymentGet],
-          ['美容品', cosmePaymentGet],
-          ['交際費', entertainmentPaymentGet],
-          ['交通費', transportationPaymentGet],
-          ['その他', othersPaymentGet]
+          ['食費', inputDataGet.categoryPayments.food ],
+          ['日用品', inputDataGet.categoryPayments.daily],
+          ['美容品', inputDataGet.categoryPayments.cosme],
+          ['交際費', inputDataGet.categoryPayments.entertainment],
+          ['交通費', inputDataGet.categoryPayments.transportation],
+          ['その他', inputDataGet.categoryPayments.others]
         ]"
         :colors='["#ffc7af","#ffabce","#d0b0ff","#ffffaa","#8eb8ff","#aeffbd",]'
       ></pie-chart>
@@ -23,37 +23,37 @@
       <hr>
       <ul class="categoryPercentage">
         <li>食費</li>
-        <li>{{ foodPaymentGet }}円</li>
+        <li>{{ inputDataGet.categoryPayments.food }}円</li>
         <li>{{ foodPercentage }}%</li>
       </ul>
       <hr>
       <ul class="categoryPercentage">
         <li>日用品</li>
-        <li>{{ dailyPaymentGet }}円</li>
+        <li>{{ inputDataGet.categoryPayments.daily }}円</li>
         <li>{{ dailyPercentage }}%</li>
       </ul>
       <hr>
       <ul class="categoryPercentage">
         <li>美容品</li>
-        <li>{{ cosmePaymentGet }}円</li>
+        <li>{{ inputDataGet.categoryPayments.cosme }}円</li>
         <li>{{ cosmePercentage }}%</li>
       </ul>
       <hr>
       <ul class="categoryPercentage">
         <li>交際費</li>
-        <li>{{ entertainmentPaymentGet }}円</li>
+        <li>{{ inputDataGet.categoryPayments.entertainment }}円</li>
         <li>{{ entertainmentPercentage }}%</li>
       </ul>
       <hr>
       <ul class="categoryPercentage">
         <li>交通費</li>
-        <li>{{ transportationPaymentGet }}円</li>
+        <li>{{ inputDataGet.categoryPayments.transportation }}円</li>
         <li>{{ transportationPercentage }}%</li>
       </ul>
       <hr>
       <ul class="categoryPercentage">
         <li>その他</li>
-        <li>{{ othersPaymentGet }}円</li>
+        <li>{{ inputDataGet.categoryPayments.others }}円</li>
         <li>{{ othersPercentage }}%</li>
       </ul>
     </div>
@@ -83,39 +83,12 @@ export default {
     }
   },
   computed: {
-    yearGet() {
-      return this.$store.state.inputData.year;
-    },
-    monthGet() {
-      return this.$store.state.inputData.month;
-    },
-    dateGet() {
-      return this.$store.state.inputData.date;
-    },
-    monthTotalGet() {
-      return this.$store.state.inputData.monthTotal;
-    },
-    foodPaymentGet() {
-      return this.$store.state.inputData.categoryPayments.food;
-    },
-    dailyPaymentGet() {
-      return this.$store.state.inputData.categoryPayments.daily;
-    },
-    cosmePaymentGet() {
-      return this.$store.state.inputData.categoryPayments.cosme;
-    },
-    entertainmentPaymentGet() {
-      return this.$store.state.inputData.categoryPayments.entertainment;
-    },
-    transportationPaymentGet() {
-      return this.$store.state.inputData.categoryPayments.transportation;
-    },
-    othersPaymentGet() {
-      return this.$store.state.inputData.categoryPayments.others;
+    inputDataGet() {
+      return this.$store.getters.inputData;
     },
 
     foodPercentage() {
-      const percentage = ((this.$store.state.inputData.categoryPayments.food / this.$store.state.inputData.monthTotal) * 100).toFixed(1);
+      const percentage = ((this.$store.getters.inputData.categoryPayments.food / this.$store.getters.inputData.monthTotal) * 100).toFixed(1);
       if(percentage != isNaN) {
         return '0';
       } else {
@@ -123,7 +96,7 @@ export default {
       }
     },
     dailyPercentage() {
-      const percentage = ((this.$store.state.inputData.categoryPayments.daily / this.$store.state.inputData.monthTotal) * 100).toFixed(1);
+      const percentage = ((this.$store.getters.inputData.categoryPayments.daily / this.$store.getters.inputData.monthTotal) * 100).toFixed(1);
       if(percentage != isNaN) {
         return '0';
       } else {
@@ -131,7 +104,7 @@ export default {
       }
     },
     cosmePercentage() {
-      const percentage = ((this.$store.state.inputData.categoryPayments.cosme / this.$store.state.inputData.monthTotal) * 100).toFixed(1);
+      const percentage = ((this.$store.getters.inputData.categoryPayments.cosme / this.$store.getters.inputData.monthTotal) * 100).toFixed(1);
       if(percentage != isNaN) {
         return '0';
       } else {
@@ -139,7 +112,7 @@ export default {
       }
     },
     entertainmentPercentage() {
-      const percentage = ((this.$store.state.inputData.categoryPayments.entertainment / this.$store.state.inputData.monthTotal) * 100).toFixed(1);
+      const percentage = ((this.$store.getters.inputData.categoryPayments.entertainment / this.$store.getters.inputData.monthTotal) * 100).toFixed(1);
       if(percentage != isNaN) {
         return '0';
       } else {
@@ -147,7 +120,7 @@ export default {
       }
     },
     transportationPercentage() {
-      const percentage = ((this.$store.state.inputData.categoryPayments.transportation / this.$store.state.inputData.monthTotal) * 100).toFixed(1);
+      const percentage = ((this.$store.getters.inputData.categoryPayments.transportation / this.$store.getters.inputData.monthTotal) * 100).toFixed(1);
       if(percentage != isNaN) {
         return '0';
       } else {
@@ -155,7 +128,7 @@ export default {
       }
     },
     othersPercentage() {
-      const percentage = ((this.$store.state.inputData.categoryPayments.others / this.$store.state.inputData.monthTotal) * 100).toFixed(1);
+      const percentage = ((this.$store.getters.inputData.categoryPayments.others / this.$store.getters.inputData.monthTotal) * 100).toFixed(1);
       if(percentage != isNaN) {
         return '0';
       } else {
@@ -164,7 +137,6 @@ export default {
     },
   },
   created() {
-    // this.$store.dispatch('createCalendar');
     this.$store.dispatch('getInputData');
   }
 }

@@ -117,25 +117,25 @@ ul {
 export default {
   computed: {
     yearGet() {
-      return this.$store.state.inputData.year;
+      return this.$store.getters.inputData.year;
     },
     monthGet() {
-      return this.$store.state.inputData.month;
+      return this.$store.getters.inputData.month;
     },
     dateGet() {
-      return this.$store.state.inputData.date;
+      return this.$store.getters.inputData.date;
     },
     monthTotalGet() {
-      return this.$store.state.inputData.monthTotal;
+      return this.$store.getters.inputData.monthTotal;
     },
     numberGet() {
-      return this.$store.state.inputData.number;
+      return this.$store.getters.inputData.number;
     },
     listGet() {
-      return this.$store.state.inputData.list;
+      return this.$store.getters.inputData.list;
     },
     categoryPaymentsGet() {
-      return this.$store.state.inputData.categoryPayments;
+      return this.$store.getters.inputData.categoryPayments;
     },
   },
   methods: {

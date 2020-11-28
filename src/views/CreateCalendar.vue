@@ -183,26 +183,26 @@ export default {
   },
   computed: {
     dateListGet() {
-      return this.$store.state.clickData.dateList;
+      return this.$store.getters.clickData.dateList;
     },
     dateTotalGet() {
-      return this.$store.state.clickData.dateTotal;
+      return this.$store.getters.clickData.dateTotal;
     },
     dateGet() {
       return {
-        year: this.$store.state.inputData.year,
-        month: this.$store.state.inputData.month,
-        date: this.$store.state.clickData.date,
+        year: this.$store.getters.inputData.year,
+        month: this.$store.getters.inputData.month,
+        date: this.$store.getters.clickData.date,
       }
     },
     //idToken = documentId
     getUsersDocumentId() {
-      return this.$store.state.idToken;
+      return this.$store.getters.idToken;
     },
     dateDiaryGet() {
       const n = this.dateListGet.length;
       if(n > 0) {
-        return this.$store.state.clickData.dateList[n - 1].diary;
+        return this.$store.getters.clickData.dateList[n - 1].diary;
       } else {
         return '';
       }

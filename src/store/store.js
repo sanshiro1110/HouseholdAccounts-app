@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 // import createPersistedState from 'vuex-persistedstate';
 import * as firebase from 'firebase';
-import router from '../router';
 
 
 Vue.use(Vuex);
@@ -12,6 +11,7 @@ const today = new Date();
 export default new Vuex.Store({
   state: {
     idToken: "",
+    isAuthenticated: true,
     inputData: {
       year: today.getFullYear(),
       month: today.getMonth() + 1,
@@ -35,11 +35,17 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    idToken: state => state.idToken
+    idToken: state => state.idToken,
+    isAuthenticated: state => state.isAuthenticated,
+    inputData: state => state.inputData,
+    clickData: state => state.clickData,
   },
   mutations: {
     updateIdToken(state, idToken) {
       state.idToken = idToken;
+    },
+    updateIsAuthenticated(state, boolean) {
+      state.isAuthenticated = boolean;
     },
     getInputData(state, newData) {
       state.inputData = newData;
@@ -127,9 +133,20 @@ export default new Vuex.Store({
     logout(context) {
       firebase.auth().signOut().then(() => {
         context.commit('updateIdToken', "");
-        router.push('/login');
-        console.log('signout success');
+        firebase.auth().onAuthStateChanged(user => {
+          if(user) {
+            console.log('user login now');
+          } else {
+            console.log('sign out success');
+          }
+        })
       });
+    },
+    updateIdToken(context, idToken) {
+      context.commit('updateIdToken', idToken);
+    },
+    updateIsAuthenticated(context, boolean) {
+      context.commit('updateIsAuthenticated', boolean);
     },
     clearData(context) {
       const initializedData = {
@@ -335,7 +352,6 @@ export default new Vuex.Store({
       console.log('createCalendar mutation finish');
     },
     renderCalendarPayment(context, list) {
-      // const arry = state.inputData.list;
       const spanArry = document.querySelectorAll('.td span');
       spanArry.forEach(span => {
         let total = 0;

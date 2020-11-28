@@ -74,20 +74,10 @@
 </style>
 
 <script>
-import * as firebase from 'firebase';
-import store from './store/store';
-import router from "./router.js"
-
 export default {
   computed: {
-    dateListGet() {
-      return this.$store.state.changeData.dateList;
-    },
-    dateTotalGet() {
-      return this.$store.state.changeData.dateTotal;
-    },
     isAuthenticated() {
-      return this.$store.getters.idToken;
+      return this.$store.getters.isAuthenticated;
     }
   },
   methods: {
@@ -97,19 +87,6 @@ export default {
       }
     }
   },
-  mounted() {
-    window.addEventListener('load', function() {
-      firebase.auth().onAuthStateChanged(user => {
-        if(user) {
-          store.commit('updateIdToken', user.uid);
-          console.log('autoLogin', user);
-          router.push('/calendar');
-        } else {
-          console.log('nobody login');
-        }
-      });
-    });
-  }
 }
 
 </script>

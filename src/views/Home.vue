@@ -53,7 +53,7 @@ export default {
   computed: {
     //idToken = documentId
     getUsersDocumentId() {
-      return this.$store.state.idToken;
+      return this.$store.getters.idToken;
     }
   },
   methods: {
