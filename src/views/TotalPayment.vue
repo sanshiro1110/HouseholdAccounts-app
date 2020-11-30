@@ -13,12 +13,14 @@
         内訳
       </h3>
       <ul>
-        <li>食費: {{ categoryPaymentsGet.food}}円</li>
-        <li>日用品: {{ categoryPaymentsGet.daily}}円</li>
-        <li>美容品: {{ categoryPaymentsGet.cosme}}円</li>
-        <li>交際費: {{ categoryPaymentsGet.entertainment}}円</li>
-        <li>交通費: {{ categoryPaymentsGet.transportation}}円</li>
-        <li>その他: {{ categoryPaymentsGet.others}}円</li>
+        <li id="categoryType">食費: <span>{{ categoryPaymentsGet.food}}</span>円</li>
+        <li id="categoryType">日用品: <span>{{ categoryPaymentsGet.daily}}</span>円</li>
+        <li id="categoryType">美容品: <span>{{ categoryPaymentsGet.cosme}}</span>円</li>
+      </ul>
+      <ul>
+        <li id="categoryType">交際費: <span>{{ categoryPaymentsGet.entertainment}}</span>円</li>
+        <li id="categoryType">交通費: <span>{{ categoryPaymentsGet.transportation}}</span>円</li>
+        <li id="categoryType">その他: <span>{{ categoryPaymentsGet.others}}</span>円</li>
       </ul>
     </div>
     <ul class="totalPayment">
@@ -77,6 +79,10 @@ ul {
   position: relative;
 }
 
+.category h3 {
+  margin-top: 25px;
+}
+
 .category ul{
   display: flex;
   justify-content: space-around;
@@ -124,6 +130,11 @@ ul {
 
 <script>
 export default {
+  data() {
+    return {
+      categoryPayments: this.$store.getters.inputData.categoryPayments,
+    }
+  },
   computed: {
     yearGet() {
       return this.$store.getters.inputData.year;

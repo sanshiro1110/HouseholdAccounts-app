@@ -1,27 +1,32 @@
 <template>
   <div>
     <div class="container">
-      <h3>日付</h3>
-      <p>
-        <span class="changeButton" @click="prevDay">&lt;</span>
-        {{ inputData.year }}年{{ inputData.month }}月{{ inputData.date }}日
-        <span class="changeButton" @click="nextDay">&gt;</span>
-      </p>
-      <hr>
+      <div class="date">
+        <h3>日付</h3>
+        <p>
+          <span class="changeButton" @click="prevDay">&lt;</span>
+          {{ inputData.year }}年{{ inputData.month }}月{{ inputData.date }}日
+          <span class="changeButton" @click="nextDay">&gt;</span>
+        </p>
+      </div>
 
-      <h3>カテゴリー</h3>
-      <select id="category" v-model="inputData.category">
-        <option v-for="category in categories" :key="category">{{ category }}</option>
-      </select>
-      <hr>
+      <div class="category">
+        <h3>カテゴリー</h3>
+        <select id="category" v-model="inputData.category">
+          <option v-for="category in categories" :key="category">{{ category }}</option>
+        </select>
+      </div>
 
-      <h3>支出額</h3>
-      <input type="number" id="payment" v-model="inputData.payment">
-      <span>円</span>
-      <hr>
+      <div class="payment">
+        <h3>支出額</h3>
+        <input type="number" min="0" id="payment" v-model="inputData.payment">
+        <span>円</span>
+      </div>
 
-      <h3>メモ</h3>
-      <textarea name="diary" id="" cols="30" rows="5" v-model="inputData.diary"></textarea>
+      <div class="memo">
+        <h3>メモ</h3>
+        <textarea name="diary" id="" cols="30" rows="5" v-model="inputData.diary"></textarea>
+      </div>
     </div>
     <div class="buttonArea">
       <button class="save" @click="dataRequest">記録する</button>
@@ -30,6 +35,18 @@
 </template>
 
 <style scoped>
+  .container > div {
+    padding: 4.5%;
+  }
+
+  .container > div:not(:last-child) {
+    border-bottom: 1px solid #000;
+  }
+
+  .container > div h3 {
+    margin-bottom: 12px;
+  }
+
   .changeButton {
     cursor: pointer;
     display: inline-block;

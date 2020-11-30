@@ -25,7 +25,7 @@ export default new Vuex.Store({
         cosme: 0,
         entertainment: 0,
         transportation: 0,
-        others: 0
+        others: 0,
       }
     },
     clickData: {

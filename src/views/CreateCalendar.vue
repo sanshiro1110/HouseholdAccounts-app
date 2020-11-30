@@ -266,6 +266,7 @@ export default {
       this.$store.dispatch('clearCalendar');
       this.$store.dispatch('createCalendar');
       this.$store.dispatch('getInputData');
+      this.$store.dispatch('modalShow');
     }
   },
 }
