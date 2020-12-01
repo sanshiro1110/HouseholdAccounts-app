@@ -39,7 +39,8 @@
           <li>{{ ary.category }}</li>
           <li>{{ ary.payment}}円</li>
         </ul>
-        <span class="deleteList" @click="deleteList(index)">[ x ]</span>
+        <span class="deleteList" @click="deleteList(index)" v-if="widthGet">[ x ]</span>
+        <span class="deleteList" @click="deleteList(index)" v-else>[x]</span>
         <hr>
       </div>
     </div>
@@ -62,7 +63,6 @@ ul {
 }
 
 .totalPayment {
-  width: 500px;
   margin: 0px auto;
   display: flex;
   justify-content: space-between;
@@ -70,8 +70,8 @@ ul {
 }
 
 .totalPayment li {
-  width: 200px;
   text-align: center;
+  width: 33%;
 }
 
 .monthTotal {
@@ -122,9 +122,22 @@ ul {
   color: #66ccff;
   position: absolute;
   top: 50%;
-  right: 30px;
+  right: 1.5%;
   transform: translateY(-50%);
   cursor: pointer;
+}
+
+@media screen and (max-width: 480px) {
+  .prevMonth {
+    left: 3%;
+  }
+  .nextMonth {
+    right: 3%;
+  }
+
+  .category ul li {
+    font-size: 11px;
+  }
 }
 </style>
 
@@ -136,6 +149,14 @@ export default {
     }
   },
   computed: {
+    widthGet() {
+      const maxWidth = document.querySelector('#app').clientWidth;
+      if(maxWidth > 480) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     yearGet() {
       return this.$store.getters.inputData.year;
     },

@@ -37,7 +37,7 @@
         <button class="save" @click="dataRequest">追加</button>
       </div>
     </div>
-    <table class="calendar">
+    <table class="calendar" id="calendar">
       <thead>
         <tr>
           <th class="prev" id="prev" @click="prevMonth">&laquo;</th>
@@ -101,7 +101,6 @@ tfoot tr td {
 }
 
 .calendar {
-  width: 500px;
   margin: 0 auto;
   position: relative;
   z-index: 10;
@@ -116,25 +115,38 @@ tfoot tr td {
   top: 150px;
   left: 50%;
   z-index: 20;
-  width: 600px;
+  width: 55%;
   border: 2px solid #777;
   border-radius: 5px;
   box-shadow: 3px 3px 2px #777;
   background-color: #fff;
+  padding: 10px;
 }
 
 .modal.visible {
-  transform: scale(1) translateX(-50%);
+  transform: scale(1) translate(-50%, -10%);
   opacity: 1;
 }
 
+.modal-changePaymentData h4 {
+  margin-bottom: 10px;
+}
+
+.modal-changePaymentData h3 {
+  margin: 10px 0;
+}
+
 .modal-changePaymentData button {
-  margin-top: 20px;
+  margin: 20px 0 0 0;
 }
 
 .modal-date {
-  margin: 0 50px 0;
+  margin: 0 50px 30px;
   border-bottom: 1px solid #000;
+}
+
+.modal-date h3 {
+  margin-bottom: 10px;
 }
 
 .data-delete {
@@ -165,6 +177,11 @@ tfoot tr td {
   cursor: pointer;
 }
 
+@media screen and (max-width: 480px) {
+  .modal {
+    width: 80%;
+  }
+}
 </style>
 
 <script>

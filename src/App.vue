@@ -33,8 +33,12 @@
   font-weight: bold;
   width: 600px;
   margin: 0 auto;
-  padding: 0;
   letter-spacing: 0.5px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
 }
 
 *, *::after, *::before {
@@ -77,13 +81,21 @@ ul {
 }
 
 .logout-button {
-  margin-bottom: 15px;
+  margin-bottom: 30px;
   display: flex;
   justify-content: flex-end;
 }
 
 .logout {
   font-size: 12px;
+}
+
+@media screen and (max-width: 480px) {
+  #app {
+    width: 95%;
+    font-size: 12px;
+    letter-spacing: 0.025rem;
+  }
 }
 
 </style>

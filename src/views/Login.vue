@@ -35,7 +35,7 @@ export default {
 <style scoped>
 
   h2 {
-    margin: 50px 0 30px 0;
+    margin: 80px 0 30px 0;
     font-size: 20px;
   }
 

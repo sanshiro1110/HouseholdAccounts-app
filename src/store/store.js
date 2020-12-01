@@ -214,8 +214,7 @@ export default new Vuex.Store({
           }
         });
         context.commit('getInputData', newData);
-        const list = context.state.inputData.list;
-        context.dispatch('renderCalendarPayment', list);
+        context.dispatch('renderCalendarPayment', newData.list);
       });
     },
     prevMonth(context, number) {
@@ -307,11 +306,16 @@ export default new Vuex.Store({
               }
               const span = document.createElement('span');
               span.style.color = "#ff9966";
-              span.style.fontSize = "12px";
+              if (window.matchMedia('(max-width: 480px)').matches) {
+                //スマホ処理
+                span.style.fontSize = "10px";
+              } else {
+                span.style.fontSize = "12px";
+              }
+              span.style.right = "3px";
               span.style.display = "block";
               span.style.position = "absolute";
               span.style.bottom = "0px";
-              span.style.right = "3px";
               if(!date.isDisable) {
                 span.classList.add(date.date);
               }
@@ -339,8 +343,15 @@ export default new Vuex.Store({
               td.style.opacity = '0.5';
             }
             td.style.border = "1px solid black";
-            td.style.width = "calc(500px / 7)";
-            td.style.height = "50px";
+
+            if (window.matchMedia('(max-width: 480px)').matches) {
+              //スマホ処理
+              td.style.height = "35px";
+              td.style.width = "40px";
+            } else {
+              td.style.height = "50px";
+              td.style.width = "70px";
+            }
             td.style.position = "relative";
             td.style.cursor = "pointer";
           })
