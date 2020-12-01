@@ -49,7 +49,6 @@
         支出
       </li>
     </ul>
-    <hr>
     <div class="paymentList">
       <div v-for="(ary, index) in listGet" :key="ary.id">
         <ul class="totalPayment">
@@ -67,8 +66,11 @@
 
 <style scoped>
 .paymentList {
+  margin-bottom: 30px;
   height: 300px;
   overflow-y: scroll;
+  border: 5px solid #aaa;
+  border-radius: 5px;
 }
 
 hr {

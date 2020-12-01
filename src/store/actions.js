@@ -9,6 +9,7 @@ export default {
       console.log('user login success');
     })
     .catch(() => {
+      alert('メールアドレスとパスワードが合っていません。');
       console.log('user login failed');
     });
   },
@@ -43,25 +44,6 @@ export default {
   },
   updateIsAuthenticated(context, boolean) {
     context.commit('updateIsAuthenticated', boolean);
-  },
-  clearData(context) {
-    const initializedData = {
-      year: today.getFullYear(),
-      month: today.getMonth() + 1,
-      date: today.getDate(),
-      monthTotal: 0,
-      number: 0,
-      list: [],
-      categoryPayments: {
-        food: 0,
-        daily: 0,
-        cosme: 0,
-        entertainment: 0,
-        transportation: 0,
-        others: 0
-      }
-    }
-    context.commit('clearData', initializedData);
   },
   getInputData(context) {
     const newData = {
@@ -255,6 +237,12 @@ export default {
     }
     createCalendar();
   },
+  clearCalendar() {
+    const tbody = document.querySelector('tbody');
+    while(tbody.firstChild) {
+      tbody.removeChild(tbody.firstChild);
+    }
+  },
   renderCalendarPayment(context, list) {
     const spanArry = document.querySelectorAll('.td span');
     spanArry.forEach(span => {
@@ -304,9 +292,9 @@ export default {
         dateTotal += doc.data().payment;
       });
       dateList.shift();
-      context.commit('getDateList', dateList);
-      context.commit('getDateTotal', dateTotal);
-      context.commit('getDate', date);
+      context.commit('updateDateList', dateList);
+      context.commit('updateDateTotal', dateTotal);
+      context.commit('updateDate', date);
     });
   },
   deleteList(context, index) {
@@ -337,12 +325,6 @@ export default {
       document.querySelector('.modal').classList.add('visible');
     });
   });
-  },
-  clearCalendar() {
-    const tbody = document.querySelector('tbody');
-    while(tbody.firstChild) {
-      tbody.removeChild(tbody.firstChild);
-    }
   },
   goToday(context, date) {
     context.commit('goToday', date);

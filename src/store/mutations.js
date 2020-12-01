@@ -23,17 +23,14 @@ export default {
       state.inputData.year += 1;
     }
   },
-  getDateList(state, dateList) {
+  updateDateList(state, dateList) {
     state.clickData.dateList = dateList;
   },
-  getDateTotal(state, dateTotal) {
+  updateDateTotal(state, dateTotal) {
     state.clickData.dateTotal = dateTotal;
   },
-  getDate(state, date) {
+  updateDate(state, date) {
     state.clickData.date = date;
-  },
-  clearData(state, initializedData) {
-    state.inputData = initializedData;
   },
   deleteList(state, index) {
     state.inputData.list.splice(index, 1);

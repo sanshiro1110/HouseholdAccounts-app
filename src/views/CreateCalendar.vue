@@ -14,10 +14,9 @@
         </div>
         <br>
         <div>
-          メモ
-          <br><br>
-          <ul v-for="(diary, index) in dateListGet" :key="index">
-            <li v-if="diary.dateIndication">{{ diary.diary }}</li>
+          <h4>--- メモ ---</h4>
+          <ul v-for="(diary, index) in dateListGet" :key="index" class="memoList">
+            <li v-if="diary.dateIndication">・ {{ diary.diary }}</li>
           </ul>
         </div>
       </div>
@@ -140,6 +139,14 @@ tfoot tr td {
   margin: 20px 0 0 0;
 }
 
+.memoList {
+  font-weight: normal;
+  text-align: left;
+  padding-left: 30px;
+}
+
+
+
 .modal-date {
   margin: 0 50px 30px;
   border-bottom: 1px solid #000;
@@ -180,6 +187,10 @@ tfoot tr td {
 @media screen and (max-width: 480px) {
   .modal {
     width: 80%;
+  }
+
+  .modal-date {
+    margin: 0 15px 30px;
   }
 }
 </style>

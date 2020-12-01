@@ -8,6 +8,11 @@
     <input type="password" id="password" v-model="password">
     <br><br>
     <button @click="login">送信</button>
+    <div class="test">
+      <h3>テスト用ID</h3>
+      <p>メールアドレス: test@test.com</p>
+      <p>パスワード: test8000</p>
+    </div>
   </div>
 </template>
 
@@ -19,6 +24,17 @@
 
   #email {
     margin-bottom: 15px;
+  }
+
+  .test {
+    margin-top: 70px;
+    padding: 20px;
+    border: 1px solid #000;
+    background-color: #eee;
+  }
+
+  .test h3 {
+    margin-bottom: 20px;
   }
 </style>
 
