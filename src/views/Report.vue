@@ -22,37 +22,55 @@
     <div>
       <hr>
       <ul class="categoryPercentage">
-        <li>食費</li>
+        <li>
+          <font-awesome-icon class="foodIcon" :icon="['fas', 'utensils']"/>
+          食費
+        </li>
         <li>{{ inputDataGet.categoryPayments.food }}円</li>
         <li>{{ foodPercentage }}%</li>
       </ul>
       <hr>
       <ul class="categoryPercentage">
-        <li>日用品</li>
+        <li>
+          <font-awesome-icon class="dailyIcon" :icon="['fas', 'shopping-bag']"/>
+          日用品
+        </li>
         <li>{{ inputDataGet.categoryPayments.daily }}円</li>
         <li>{{ dailyPercentage }}%</li>
       </ul>
       <hr>
       <ul class="categoryPercentage">
-        <li>美容品</li>
+        <li>
+          <font-awesome-icon class="cosmeIcon" :icon="['fas', 'smile']"/>
+          美容品
+        </li>
         <li>{{ inputDataGet.categoryPayments.cosme }}円</li>
         <li>{{ cosmePercentage }}%</li>
       </ul>
       <hr>
       <ul class="categoryPercentage">
-        <li>交際費</li>
+        <li>
+          <font-awesome-icon class="entertainmentIcon" :icon="['fas', 'glass-cheers']"/>
+          交際費
+        </li>
         <li>{{ inputDataGet.categoryPayments.entertainment }}円</li>
         <li>{{ entertainmentPercentage }}%</li>
       </ul>
       <hr>
       <ul class="categoryPercentage">
-        <li>交通費</li>
+        <li>
+          <font-awesome-icon class="transportationIcon" :icon="['fas', 'bus']"/>
+          交通費
+        </li>
         <li>{{ inputDataGet.categoryPayments.transportation }}円</li>
         <li>{{ transportationPercentage }}%</li>
       </ul>
       <hr>
       <ul class="categoryPercentage">
-        <li>その他</li>
+        <li>
+          <font-awesome-icon class="othersIcon" :icon="['fas', 'basketball-ball']"/>
+          その他
+        </li>
         <li>{{ inputDataGet.categoryPayments.others }}円</li>
         <li>{{ othersPercentage }}%</li>
       </ul>

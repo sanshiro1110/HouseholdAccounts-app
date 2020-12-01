@@ -13,14 +13,32 @@
         内訳
       </h3>
       <ul>
-        <li id="categoryType">食費: <span>{{ categoryPaymentsGet.food}}</span>円</li>
-        <li id="categoryType">日用品: <span>{{ categoryPaymentsGet.daily}}</span>円</li>
-        <li id="categoryType">美容品: <span>{{ categoryPaymentsGet.cosme}}</span>円</li>
+        <li id="categoryType">
+          <font-awesome-icon class="foodIcon" :icon="['fas', 'utensils']"/>
+          食費: <span>{{ categoryPaymentsGet.food}}</span>円
+        </li>
+        <li id="categoryType">
+          <font-awesome-icon class="dailyIcon" :icon="['fas', 'shopping-bag']"/>
+          日用品: <span>{{ categoryPaymentsGet.daily}}</span>円
+        </li>
+        <li id="categoryType">
+          <font-awesome-icon class="cosmeIcon" :icon="['fas', 'smile']"/>
+          美容品: <span>{{ categoryPaymentsGet.cosme}}</span>円
+        </li>
       </ul>
       <ul>
-        <li id="categoryType">交際費: <span>{{ categoryPaymentsGet.entertainment}}</span>円</li>
-        <li id="categoryType">交通費: <span>{{ categoryPaymentsGet.transportation}}</span>円</li>
-        <li id="categoryType">その他: <span>{{ categoryPaymentsGet.others}}</span>円</li>
+        <li id="categoryType">
+          <font-awesome-icon class="entertainmentIcon" :icon="['fas', 'glass-cheers']"/>
+          交際費: <span>{{ categoryPaymentsGet.entertainment}}</span>円
+        </li>
+        <li id="categoryType">
+          <font-awesome-icon class="transportationIcon" :icon="['fas', 'bus']"/>
+          交通費: <span>{{ categoryPaymentsGet.transportation}}</span>円
+        </li>
+        <li id="categoryType">
+          <font-awesome-icon class="othersIcon" :icon="['fas', 'basketball-ball']"/>
+          その他: <span>{{ categoryPaymentsGet.others}}</span>円
+        </li>
       </ul>
     </div>
     <ul class="totalPayment">
@@ -32,9 +50,9 @@
       </li>
     </ul>
     <hr>
-    <div class="hoge">
-      <div v-for="(ary, index) in listGet" :key="ary.id" class="datePaymentLists">
-        <ul class="totalPayment datePaymentList">
+    <div class="paymentList">
+      <div v-for="(ary, index) in listGet" :key="ary.id">
+        <ul class="totalPayment">
           <li>{{ ary.month }}月{{ ary.date}}日</li>
           <li>{{ ary.category }}</li>
           <li>{{ ary.payment}}円</li>
@@ -48,7 +66,7 @@
 </template>
 
 <style scoped>
-.hoge {
+.paymentList {
   height: 300px;
   overflow-y: scroll;
 }
@@ -111,9 +129,10 @@ ul {
   background-color: #eee;
   border-radius: 10px;
   padding: 10px;
+  user-select: none;
 }
 
-.datePaymentLists {
+.paymentList > div {
   position: relative;
 }
 
@@ -140,8 +159,29 @@ ul {
   }
 }
 </style>
+<style>
+.foodIcon {
+  color: #FF82B2;
+}
+.dailyIcon {
+  color: #C9FF2F;
+}
+.cosmeIcon {
+  color: #30F9B2;
+}
+.entertainmentIcon {
+  color: #4689FF;
+}
+.transportationIcon {
+  color: #A16EFF;
+}
+.othersIcon {
+  color: #FF773E;
+}
 
+</style>
 <script>
+
 export default {
   data() {
     return {

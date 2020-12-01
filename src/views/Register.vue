@@ -11,6 +11,17 @@
   </div>
 </template>
 
+<style scoped>
+  h2 {
+    margin: 80px 0 30px 0;
+    font-size: 20px;
+  }
+
+  #email {
+    margin-bottom: 15px;
+  }
+</style>
+
 <script>
 
 export default {
@@ -34,15 +45,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-
-  h2 {
-    margin: 80px 0 30px 0;
-    font-size: 20px;
-  }
-
-  #email {
-    margin-bottom: 15px;
-  }
-</style>

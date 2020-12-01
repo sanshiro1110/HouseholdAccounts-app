@@ -12,7 +12,7 @@
 
       <div class="category">
         <h3>カテゴリー</h3>
-        <select id="category" v-model="inputData.category">
+        <select v-model="inputData.category">
           <option v-for="category in categories" :key="category">{{ category }}</option>
         </select>
       </div>
@@ -52,6 +52,7 @@
     display: inline-block;
     border: 1px solid #2c3e50;
     padding: 2px;
+    user-select: none;
   }
 
   .buttonArea {
@@ -61,11 +62,14 @@
   .save {
     cursor: pointer;
   }
+
+  .category select {
+    padding: 3px;
+  }
 </style>
 
 <script>
 import * as firebase from 'firebase';
-// import router from "../router.js";
 
 const today = new Date();
 
@@ -85,7 +89,6 @@ export default {
     }
   },
   computed: {
-    //idToken = documentId
     getUsersDocumentId() {
       return this.$store.getters.idToken;
     }
