@@ -11,16 +11,17 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 library.add(fas);
 
-Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAS5O9-MoyhNJiy1xhbujIEcAsokXPWIOY",
-  authDomain: "vueapp1-c024a.firebaseapp.com",
-  databaseURL: "https://vueapp1-c024a.firebaseio.com",
-  projectId: "vueapp1-c024a",
-  storageBucket: "vueapp1-c024a.appspot.com",
-  messagingSenderId: "157469378277",
-  appId: "1:157469378277:web:5273aca133ea7f9767760c"
+  apiKey: "AIzaSyACFgmrS9I5TRnI1sPWY3ro00HwtQmbWhM",
+  authDomain: "householdaccounts-vueapp.firebaseapp.com",
+  databaseURL: "https://householdaccounts-vueapp.firebaseio.com",
+  projectId: "householdaccounts-vueapp",
+  storageBucket: "householdaccounts-vueapp.appspot.com",
+  messagingSenderId: "437591636718",
+  appId: "1:437591636718:web:1c2309a95e752066b391ff",
+  measurementId: "G-T7WC04S8N3"
 };
 
 firebase.initializeApp(firebaseConfig);

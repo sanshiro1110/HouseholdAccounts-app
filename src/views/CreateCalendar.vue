@@ -33,7 +33,7 @@
         <h3>メモ</h3>
         <textarea name="diary" id="" cols="30" rows="5" v-model="inputData.diary"></textarea>
         <br>
-        <button class="save" @click="dataRequest">追加</button>
+        <button class="save" @click="dataRequest">追加する</button>
       </div>
     </div>
     <table class="calendar" id="calendar">
