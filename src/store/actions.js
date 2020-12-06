@@ -22,14 +22,13 @@ export default {
       db.collection('users').doc(response.user.uid).set({
         email: authData.email,
         password:authData.password
-      })
-      .then(() => {
-        console.log('user register success');
-      })
-      .catch(() => {
-        alert('パスワードが弱いです。6文字以上の半角英数字で書き直してください。');
-        console.log('user register failed');
       });
+
+      console.log('user register successed');
+    })
+    .catch(() => {
+      alert('パスワードが弱いです。6文字以上の半角英数字で書き直してください。');
+      console.log('user register failed');
     });
   },
   logout(context) {
