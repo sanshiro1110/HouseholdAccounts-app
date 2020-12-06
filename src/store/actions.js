@@ -27,6 +27,7 @@ export default {
         console.log('user register success');
       })
       .catch(() => {
+        alert('パスワードが弱いです。6文字以上の半角英数字で書き直してください。');
         console.log('user register failed');
       });
     });

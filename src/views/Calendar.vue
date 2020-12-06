@@ -16,9 +16,9 @@ export default {
   },
   mounted() {
     this.$nextTick(function() {
-    this.$store.dispatch('getInputData');
-    this.$store.dispatch('createCalendar');
-    this.$store.dispatch('modalShow');
+      this.$store.dispatch('getInputData');
+      this.$store.dispatch('createCalendar');
+      this.$store.dispatch('modalShow');
     });
   },
 }
